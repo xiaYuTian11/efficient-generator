@@ -5,7 +5,8 @@
 ## 框架
 
 ```text
-    代码生成器所用框架springboot+mybatis-plus+自定义common模块
+    代码生成器所用框架springboot+mybatis-plus+自定义commons模块
+    commons 模块地址： https://github.com/xiaYuTian11/commons
 ```
 
 ## 配置说明
