@@ -33,7 +33,7 @@ public class ${table_name}DTO {
     || model.columnType = 'longvarchar')>
     private String ${model.changeColumnName?uncap_first};
     </#if>
-    <#if model.columnType = 'timestamp' >
+    <#if model.columnType = 'timestamp'  ||  model.columnType = 'date' >
     private Date ${model.changeColumnName?uncap_first};
     </#if>
     <#if model.columnType = 'smallint' || model.columnType = 'int'  || model.columnType = 'int2'

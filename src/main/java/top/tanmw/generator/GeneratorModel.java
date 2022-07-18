@@ -2,10 +2,7 @@ package top.tanmw.generator;
 
 import cn.hutool.core.util.StrUtil;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 代码生成器模型
@@ -49,7 +46,7 @@ public class GeneratorModel {
     /**
      * 工程名称
      */
-    private String projectName;
+    private String moduleName;
     /**
      *
      */
@@ -62,6 +59,11 @@ public class GeneratorModel {
      * 模式，single工程，multi 多模块
      */
     private String pattern;
+    /**
+     * 是否删除文件
+     */
+    private boolean isDelete;
+    private Integer deleteLevel;
     private List<Integer> fileType;
     private Set<String> includeSet;
     private Set<String> excludeSet;
@@ -175,12 +177,12 @@ public class GeneratorModel {
         this.basePath = basePath;
     }
 
-    public String getProjectName() {
-        return projectName;
+    public String getModuleName() {
+        return moduleName;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
     }
 
     public String getPattern() {
@@ -213,5 +215,27 @@ public class GeneratorModel {
         } else {
             this.excludeSet = new HashSet<>();
         }
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(String isDelete) {
+        if (Objects.isNull(isDelete)) {
+            this.isDelete = false;
+        }
+        this.isDelete = Boolean.parseBoolean(isDelete);
+    }
+
+    public Integer getDeleteLevel() {
+        return deleteLevel;
+    }
+
+    public void setDeleteLevel(String deleteLevel) {
+        if (Objects.isNull(deleteLevel)) {
+            this.deleteLevel = 1;
+        }
+        this.deleteLevel = Integer.parseInt(deleteLevel);
     }
 }

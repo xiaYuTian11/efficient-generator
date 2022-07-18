@@ -1,6 +1,6 @@
 package ${package_name};
 
-import com.sjr.common.entity.Result;
+import com.sjr.common.result.Result;
 import com.sjr.common.log.Log;
 import com.sjr.common.log.OptTypeEnum;
 import com.sjr.common.permission.Permission;

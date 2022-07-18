@@ -2,8 +2,6 @@ package ${package_name};
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sjr.common.entity.Result;
-import com.sjr.common.entity.ResultEnum;
 import ${api_package_name}.${table_name}Service;
 import ${converter_package_name}.${table_name}Converter;
 import ${dao_package_name}.${table_name}Mapper;

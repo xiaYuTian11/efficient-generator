@@ -38,22 +38,25 @@ public class Generator {
             String sp1 = System.getProperty("user.dir");
             model.setBasePath(sp1);
         }
+        model.setDelete(properties.getProperty("isDelete"));
+        model.setDeleteLevel(properties.getProperty("deleteLevel"));
 
-        model.setProjectName(properties.getProperty("projectName"));
-        if (StrUtil.isBlank(model.getProjectName())) {
+        model.setModuleName(properties.getProperty("moduleName"));
+        if (StrUtil.isBlank(model.getModuleName())) {
             String basePath = model.getBasePath();
             File file = new File(basePath);
             String name = file.getName();
-            model.setProjectName(name);
+            model.setModuleName(name);
         }
         model.setPackageName(properties.getProperty("packageName"));
         if (StrUtil.isBlank(model.getPackageName())) {
-            model.setPackageName(model.getProjectName());
+            model.setPackageName(model.getModuleName());
         }
         model.setPattern(properties.getProperty("pattern"));
         if (StrUtil.isBlank(model.getPattern())) {
             model.setPattern(MULTI.getDesc());
         }
+
         model.setExcludePrefix(properties.getProperty("excludePrefix"));
         model.setIncludeSet(properties.getProperty("includeSet"));
         model.setExcludeSet(properties.getProperty("excludeSet"));
