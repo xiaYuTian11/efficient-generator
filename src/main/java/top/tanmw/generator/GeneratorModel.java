@@ -224,6 +224,7 @@ public class GeneratorModel {
     public void setDelete(String isDelete) {
         if (Objects.isNull(isDelete)) {
             this.isDelete = false;
+            return;
         }
         this.isDelete = Boolean.parseBoolean(isDelete);
     }
@@ -233,8 +234,9 @@ public class GeneratorModel {
     }
 
     public void setDeleteLevel(String deleteLevel) {
-        if (Objects.isNull(deleteLevel)) {
+        if (StrUtil.isBlank(deleteLevel)) {
             this.deleteLevel = 1;
+            return;
         }
         this.deleteLevel = Integer.parseInt(deleteLevel);
     }

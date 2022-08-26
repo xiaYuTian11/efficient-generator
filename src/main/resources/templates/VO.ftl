@@ -42,8 +42,8 @@ public class ${table_name}VO {
     || model.columnType = 'int4' || model.columnType = 'integer' || model.columnType = 'bit'>
     private Integer ${model.changeColumnName?uncap_first};
     </#if>
-    <#if (model.columnType = 'binary')>
-    private Byte[] ${model.changeColumnName?uncap_first};
+    <#if (model.columnType = 'binary' || model.columnType = 'blob' ||model.columnType = 'longblob')>
+    private byte[] ${model.changeColumnName?uncap_first};
     </#if>
     <#if model.columnType = 'numeric' ||  model.columnType = 'decimal' ||  model.columnType = 'number'>
     private java.math.BigDecimal ${model.changeColumnName?uncap_first};

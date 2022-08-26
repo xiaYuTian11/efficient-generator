@@ -160,7 +160,8 @@ public class CodeGenerateUtils {
                     primaryKeyFieldName = replaceUnderLineAndUpperCase(primaryKeyColumnName);
                 }
                 try {
-                    if (config.isDelete()) {
+                    // config.isDelete()
+                    if (false) {
                         this.delete();
                         continue;
                     }
