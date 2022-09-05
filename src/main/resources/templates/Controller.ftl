@@ -1,9 +1,9 @@
 package ${package_name};
 
-import com.sjr.common.result.Result;
-import com.sjr.common.log.Log;
-import com.sjr.common.log.OptTypeEnum;
-import com.sjr.common.permission.Permission;
+import com.efficient.common.result.Result;
+import com.efficient.common.log.Log;
+import com.efficient.common.log.OptTypeEnum;
+import com.efficient.common.permission.Permission;
 import ${api_package_name}.${table_name}Service;
 import ${dto_package_name}.${table_name}DTO;
 import ${dto_package_name}.${table_name}ListDTO;
