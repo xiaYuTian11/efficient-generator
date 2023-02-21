@@ -1,8 +1,8 @@
 package ${package_name};
 
 import com.efficient.common.result.Result;
-import com.efficient.common.log.Log;
-import com.efficient.common.log.OptTypeEnum;
+import com.efficient.logs.annotation.Log;
+import com.efficient.logs.constant.LogEnum;
 import com.efficient.common.permission.Permission;
 import ${api_package_name}.${table_name}Service;
 import ${dto_package_name}.${table_name}DTO;
