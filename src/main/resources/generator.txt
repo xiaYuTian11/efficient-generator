@@ -1,20 +1,12 @@
-url=jdbc:postgresql://127.0.0.1:5432/gz-station?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+url=jdbc:postgresql://192.168.0.245:5432/ykz_leader?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
 driver=org.postgresql.Driver
 user=postgres
-password=postgres
+password=20191809
 
-## 是否删除以生成文件（用于配置错误生成的错误文件删除操作）,默认false
-isDelete=
-## 删除层级，默认生成文件，如top.tanmw.demo.SysUserController 默认只删除 SysUserController.java，如果值为2，则删除demo包下所有文件
-deleteLevel=
-## 注意文件路径采用反斜杠,默认当前工程路径
-basePath=
-## 模块工程名称前缀，xxx-web,此处写 xxx,默认取当前工程目录名,D:\java\ideaWorkingSpace\my\generator->generator
-moduleName=
-## 包名称
-packageName=top.tanm.demo
-## 模式，single工程，multi 多模块，默认多模块
-pattern=
+basePath=C:\\Users\\tmw\\Desktop\\test
+projectName=ykz_leader
+packageName=leader
+pattern=single
 ## 包含表名，多个 英文逗号分隔
 includeSet=sys_log
 ## 不包含表名，多个 英文逗号分隔

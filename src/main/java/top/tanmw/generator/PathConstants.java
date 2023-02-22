@@ -7,7 +7,8 @@ package top.tanmw.generator;
 public class PathConstants {
     public static final String JAVA_PREFIX = "/src/main/java/";
     public static final String RESOURCES_PREFIX = "/src/main/resources/";
-    public static final String AUTHOR = "code generator";
+    public static final String AUTHOR = "TMW";
+    public static final String PROJECT_PREFIX = "com.zenith.";
     public static final String RAIL = "-";
     public static final String DOT = ".";
     public static final String SLASH = "/";

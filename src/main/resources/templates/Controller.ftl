@@ -1,9 +1,9 @@
 package ${package_name};
 
-import com.efficient.common.result.Result;
-import com.efficient.logs.annotation.Log;
-import com.efficient.logs.constant.LogEnum;
-import com.efficient.common.permission.Permission;
+import com.zenith.leader.common.result.Result;
+import com.zenith.leader.common.log.Log;
+import com.zenith.leader.common.log.OptTypeEnum;
+import com.zenith.leader.common.auth.Permission;
 import ${api_package_name}.${table_name}Service;
 import ${dto_package_name}.${table_name}DTO;
 import ${dto_package_name}.${table_name}ListDTO;
@@ -40,7 +40,7 @@ public class ${table_name}Controller {
     /**
     * 新增
     */
-    @Log(optType = OptTypeEnum.INSERT)
+    @Log(optType = OptTypeEnum.INSERT, desc = "${table_describe}")
     @PostMapping("/save")
     @ApiOperation(value = "保存", response = Result.class)
     public Result save(@Validated @RequestBody ${table_name}DTO dto) {
@@ -51,11 +51,11 @@ public class ${table_name}Controller {
     /**
     * 详情
     */
-    @Log(optType = OptTypeEnum.QUERY)
+    @Log(optType = OptTypeEnum.QUERY, desc = "${table_describe}")
     @GetMapping("/find")
     @ApiOperation(value = "详情", response = Result.class)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "数据唯一标识", required = true)
+            @ApiImplicitParam(name = "id", value = "数据唯一标识",dataTypeClass = String.class, required = true)
     })
     public Result find(@NotBlank(message = "id 不能为空") @RequestParam(name="id") String id) {
         ${table_name}VO entity = ${lower_table_name}Service.findById(id);
@@ -65,7 +65,7 @@ public class ${table_name}Controller {
     /**
     * 修改
     */
-    @Log(optType = OptTypeEnum.UPDATE)
+    @Log(optType = OptTypeEnum.UPDATE, desc = "${table_describe}")
     @PostMapping("/update")
     @ApiOperation(value = "修改", response = Result.class)
     public Result update(@Validated @RequestBody ${table_name}DTO dto) {
@@ -76,11 +76,11 @@ public class ${table_name}Controller {
     /**
     * 删除
     */
-    @Log(optType = OptTypeEnum.DELETE)
+    @Log(optType = OptTypeEnum.DELETE, desc = "${table_describe}")
     @GetMapping("/delete")
     @ApiOperation(value = "删除", response = Result.class)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "数据唯一标识", required = true)
+            @ApiImplicitParam(name = "id", value = "数据唯一标识",dataTypeClass = String.class, required = true)
     })
     public Result delete(@NotBlank(message = "id 不能为空") @RequestParam(name="id") String id) {
         boolean flag = ${lower_table_name}Service.delete(id);
@@ -90,7 +90,7 @@ public class ${table_name}Controller {
     /**
     * 列表
     */
-    @Log(optType = OptTypeEnum.PAGE)
+    @Log(optType = OptTypeEnum.PAGE, desc = "${table_describe}")
     @PostMapping("/list")
     @ApiOperation(value = "列表", response = Result.class)
     public Result list(@Validated @RequestBody ${table_name}ListDTO dto) {

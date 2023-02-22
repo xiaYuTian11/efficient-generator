@@ -38,25 +38,18 @@ public class Generator {
             String sp1 = System.getProperty("user.dir");
             model.setBasePath(sp1);
         }
-        model.setDelete(properties.getProperty("isDelete"));
-        model.setDeleteLevel(properties.getProperty("deleteLevel"));
-
-        model.setModuleName(properties.getProperty("moduleName"));
-        if (StrUtil.isBlank(model.getModuleName())) {
-            String basePath = model.getBasePath();
-            File file = new File(basePath);
-            String name = file.getName();
-            model.setModuleName(name);
+        model.setProjectName(properties.getProperty("projectName"));
+        if (StrUtil.isBlank(model.getProjectName())) {
+            model.setProjectName("zenith");
         }
         model.setPackageName(properties.getProperty("packageName"));
         if (StrUtil.isBlank(model.getPackageName())) {
-            model.setPackageName(model.getModuleName());
+            model.setPackageName(model.getProjectName());
         }
         model.setPattern(properties.getProperty("pattern"));
         if (StrUtil.isBlank(model.getPattern())) {
             model.setPattern(MULTI.getDesc());
         }
-
         model.setExcludePrefix(properties.getProperty("excludePrefix"));
         model.setIncludeSet(properties.getProperty("includeSet"));
         model.setExcludeSet(properties.getProperty("excludeSet"));
@@ -88,6 +81,7 @@ public class Generator {
         model.setFileType(list);
         CodeGenerateUtils codeGenerateUtils = new CodeGenerateUtils();
         codeGenerateUtils.init(model);
+        codeGenerateUtils.initTableMapName();
         codeGenerateUtils.generate();
     }
 

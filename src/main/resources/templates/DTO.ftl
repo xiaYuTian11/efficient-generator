@@ -33,15 +33,15 @@ public class ${table_name}DTO {
     || model.columnType = 'longvarchar')>
     private String ${model.changeColumnName?uncap_first};
     </#if>
-    <#if model.columnType = 'timestamp'  ||  model.columnType = 'date' >
+    <#if model.columnType = 'timestamp' || model.columnType = 'date'>
     private Date ${model.changeColumnName?uncap_first};
     </#if>
     <#if model.columnType = 'smallint' || model.columnType = 'int'  || model.columnType = 'int2'
     || model.columnType = 'int4' || model.columnType = 'integer' || model.columnType = 'bit'>
     private Integer ${model.changeColumnName?uncap_first};
     </#if>
-    <#if (model.columnType = 'binary' || model.columnType = 'blob' ||model.columnType = 'longblob')>
-    private byte[] ${model.changeColumnName?uncap_first};
+    <#if (model.columnType = 'binary')>
+    private Byte[] ${model.changeColumnName?uncap_first};
     </#if>
     <#if model.columnType = 'numeric' ||  model.columnType = 'decimal' ||  model.columnType = 'number'>
     private java.math.BigDecimal ${model.changeColumnName?uncap_first};

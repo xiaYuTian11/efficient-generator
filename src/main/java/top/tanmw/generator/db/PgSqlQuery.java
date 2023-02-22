@@ -17,6 +17,8 @@ public class PgSqlQuery extends DbQueryAbst {
 
     @Override
     public String getShowTablesCommentSql() {
-        return "select relname as tableName,cast(obj_description(relfilenode,'pg_class') as varchar) as tableComment from pg_class;";
+        // return "select relname as tableName,cast(obj_description(relfilenode,'pg_class') as varchar) as tableComment from pg_class;";
+        return "select relname as tabname,cast(obj_description(relfilenode,'pg_class') as varchar) as comment from pg_class c\n" +
+                "where relname in (select tablename from pg_tables where schemaname='public' and position('_2' in tablename)=0);";
     }
 }
