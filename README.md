@@ -35,6 +35,8 @@ replace=true
 ## 默认全部生成,生成文件,1-model,2-dto,3-listDto,4-VO,5-converter,6-mapper,7-dao,8-service,9-serviceimpl,10-controller
 ## 1-4,生成表示包含中间连续的类型，英文逗号包括分隔
 fileType=
+## 使用外包模版,模版放在resources/templates不用配置，会默认读取外包模版
+templatePath=
 ```
 
 ## 使用
