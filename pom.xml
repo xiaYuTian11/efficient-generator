@@ -9,7 +9,7 @@
 
     <groupId>top.tanmw</groupId>
     <artifactId>efficient-generator</artifactId>
-    <version>1.2.5</version>
+    <version>1.2.8</version>
 
     <packaging>jar</packaging>
 
@@ -27,51 +27,41 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.20</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>21.5.0.0</version>
+            <scope>provided</scope>
         </dependency>
         <!-- mvn install:install-file -Dfile=./kingbase8-8.2.0.jar -DgroupId=com.kingbase -DartifactId=kingbase8 -Dversion=8.2.0 -Dpackaging=jar -->
-        <dependency>
-            <groupId>com.kingbase</groupId>
-            <artifactId>kingbase8</artifactId>
-            <version>8.2.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.kingbase</groupId>-->
+<!--            <artifactId>kingbase8</artifactId>-->
+<!--            <version>8.2.0</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
         <!-- mvn install:install-file -Dfile=./Dm7JdbcDriver18.jar -DgroupId=com.dm -DartifactId=dm -Dversion=7.1.8 -Dpackaging=jar -->
-        <dependency>
-            <groupId>com.dm</groupId>
-            <artifactId>dm</artifactId>
-            <version>7.1.8</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.dm</groupId>-->
+<!--            <artifactId>dm</artifactId>-->
+<!--            <version>7.1.8</version>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.3.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus</artifactId>
-            <version>3.4.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.4.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>RELEASE</version>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.kingbase8</groupId>-->
-        <!--            <artifactId>jdbc42</artifactId>-->
-        <!--            <version>8.2.0</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
