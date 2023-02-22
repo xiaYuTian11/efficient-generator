@@ -32,6 +32,7 @@ public class CodeGenerateUtils {
     private String password;
     private String basePath;
     private String projectName;
+    private String author;
     private String packageName;
     // 优先
     private Set<String> includeSet;
@@ -103,6 +104,10 @@ public class CodeGenerateUtils {
         excludePrefix = generatorModel.getExcludePrefix();
         isReplace = generatorModel.isReplace();
         fileType = generatorModel.getFileType();
+        author = generatorModel.getAuthor();
+        if(StrUtil.isBlank(author)){
+            author = AUTHOR;
+        }
         // basePackageName = PROJECT_PREFIX + packageName;
         basePackageName = packageName;
         basePackagePath = basePackageName.replaceAll("\\.", "/");
@@ -460,7 +465,7 @@ public class CodeGenerateUtils {
         dataMap.put("table_name", changeTableName);
         // 首字母小写驼峰
         dataMap.put("lower_table_name", StrUtil.lowerFirst(changeTableName));
-        dataMap.put("author", AUTHOR);
+        dataMap.put("author", author);
         dataMap.put("table_describe", tableDescribe);
         dataMap.put("date", DateUtil.formatDateTime(new Date()));
         dataMap.put("primary_key_field", primaryKeyFieldName);

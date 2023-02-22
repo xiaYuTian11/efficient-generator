@@ -33,6 +33,7 @@ public class Generator {
         model.setPassword(properties.getProperty("password"));
         model.setDbName(properties.getProperty("dbName"));
         model.setTemplatePath(properties.getProperty("templatePath"));
+        model.setAuthor(properties.getProperty("author"));
         model.setShowTablesSql(properties.getProperty("showTablesSql"));
         model.setShowTablesCommentSql(properties.getProperty("showTablesCommentSql"));
         model.setBasePath(properties.getProperty("basePath"));

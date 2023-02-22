@@ -39,6 +39,10 @@ public class GeneratorModel {
      */
     private String templatePath;
     /**
+     * 作者
+     */
+    private String author;
+    /**
      * 查询表sql
      */
     private String showTablesSql;
@@ -238,5 +242,13 @@ public class GeneratorModel {
 
     public void setTemplatePath(String templatePath) {
         this.templatePath = templatePath;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
