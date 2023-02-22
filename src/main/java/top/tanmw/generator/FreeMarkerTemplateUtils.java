@@ -1,11 +1,13 @@
 package top.tanmw.generator;
 
+import cn.hutool.core.util.StrUtil;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.cache.NullCacheStorage;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -14,12 +16,21 @@ import java.io.IOException;
  */
 public class FreeMarkerTemplateUtils {
 
-    private FreeMarkerTemplateUtils(){}
+    private FreeMarkerTemplateUtils() {
+    }
+
     private static final Configuration CONFIGURATION = new Configuration(Configuration.VERSION_2_3_30);
 
-    static{
-        //这里比较重要，用来指定加载模板所在的路径
-        CONFIGURATION.setTemplateLoader(new ClassTemplateLoader(FreeMarkerTemplateUtils.class, "/templates"));
+    public static void init(String templatePath) {
+        if (StrUtil.isBlank(templatePath)) {
+            CONFIGURATION.setTemplateLoader(new ClassTemplateLoader(FreeMarkerTemplateUtils.class, "/templates"));
+        } else {
+            try {
+                CONFIGURATION.setDirectoryForTemplateLoading(new File(templatePath));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         CONFIGURATION.setDefaultEncoding("UTF-8");
         CONFIGURATION.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         CONFIGURATION.setCacheStorage(NullCacheStorage.INSTANCE);

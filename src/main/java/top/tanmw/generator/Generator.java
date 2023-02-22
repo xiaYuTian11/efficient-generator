@@ -32,6 +32,7 @@ public class Generator {
         model.setUser(properties.getProperty("user"));
         model.setPassword(properties.getProperty("password"));
         model.setDbName(properties.getProperty("dbName"));
+        model.setTemplatePath(properties.getProperty("templatePath"));
         model.setShowTablesSql(properties.getProperty("showTablesSql"));
         model.setShowTablesCommentSql(properties.getProperty("showTablesCommentSql"));
         model.setBasePath(properties.getProperty("basePath"));
@@ -84,6 +85,7 @@ public class Generator {
         CodeGenerateUtils codeGenerateUtils = new CodeGenerateUtils();
         codeGenerateUtils.init(model);
         codeGenerateUtils.initTableMapName();
+        FreeMarkerTemplateUtils.init(model.getTemplatePath());
         codeGenerateUtils.generate();
     }
 

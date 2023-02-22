@@ -35,6 +35,10 @@ public class GeneratorModel {
      */
     private String dbName;
     /**
+     * 模版路径
+     */
+    private String templatePath;
+    /**
      * 查询表sql
      */
     private String showTablesSql;
@@ -226,5 +230,13 @@ public class GeneratorModel {
         } else {
             this.excludeSet = new HashSet<>();
         }
+    }
+
+    public String getTemplatePath() {
+        return templatePath;
+    }
+
+    public void setTemplatePath(String templatePath) {
+        this.templatePath = templatePath;
     }
 }
