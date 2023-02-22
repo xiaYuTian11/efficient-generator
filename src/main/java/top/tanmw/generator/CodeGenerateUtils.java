@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.Date;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static top.tanmw.generator.PathConstants.*;
@@ -34,6 +35,7 @@ public class CodeGenerateUtils {
     private String packageName;
     // 优先
     private Set<String> includeSet;
+    private Set<String> includeSetComment;
     private Map<String, String> includeMapName;
     private Set<String> excludeSet;
     private Set<String> excludePrefix;
@@ -76,7 +78,10 @@ public class CodeGenerateUtils {
 
     public void initTableMapName() {
         includeMapName = new HashMap<>();
-        includeMapName.put("sys_log", "系统日志表");
+        if (CollUtil.isNotEmpty(includeSet) && CollUtil.isNotEmpty(includeSetComment) && includeSet.size() == includeSetComment.size()) {
+            AtomicInteger count = new AtomicInteger(0);
+            includeSet.forEach(table -> includeMapName.put(table, includeSetComment.toArray(new String[]{})[count.getAndIncrement()]));
+        }
     }
 
     public Connection getConnection() throws Exception {
@@ -93,6 +98,7 @@ public class CodeGenerateUtils {
         projectName = generatorModel.getProjectName();
         packageName = generatorModel.getPackageName();
         includeSet = generatorModel.getIncludeSet();
+        includeSetComment = generatorModel.getIncludeSetComment();
         excludeSet = generatorModel.getExcludeSet();
         excludePrefix = generatorModel.getExcludePrefix();
         isReplace = generatorModel.isReplace();

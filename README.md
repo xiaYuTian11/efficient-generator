@@ -39,6 +39,7 @@ fileType=
 
 ```java
 // 将项目打包后生成的jar引入需要工程
+
 /**
  * 代码生成器
  *
@@ -49,7 +50,7 @@ public class GeneratorTest {
     @Test
     public void generator() throws Exception {
         // 传入配置文件地址
-        String path = GeneratorTest.class.getResource("/generator.txt").getPath().toString();
+        String path = GeneratorTest.class.getResource("/generator.properties").getPath().toString();
         Generator.run(path);
     }
 }

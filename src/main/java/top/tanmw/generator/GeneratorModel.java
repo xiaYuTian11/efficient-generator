@@ -64,6 +64,7 @@ public class GeneratorModel {
     private String pattern;
     private List<Integer> fileType;
     private Set<String> includeSet;
+    private Set<String> includeSetComment;
     private Set<String> excludeSet;
     private Set<String> excludePrefix;
 
@@ -200,6 +201,18 @@ public class GeneratorModel {
             this.includeSet = new HashSet<>(Arrays.asList(includeSet.split(",")));
         } else {
             this.includeSet = new HashSet<>();
+        }
+    }
+
+    public Set<String> getIncludeSetComment() {
+        return includeSetComment;
+    }
+
+    public void setIncludeSetComment(String includeSetComment) {
+        if (StrUtil.isNotBlank(includeSetComment)) {
+            this.includeSetComment = new HashSet<>(Arrays.asList(includeSetComment.split(",")));
+        } else {
+            this.includeSetComment = new HashSet<>();
         }
     }
 

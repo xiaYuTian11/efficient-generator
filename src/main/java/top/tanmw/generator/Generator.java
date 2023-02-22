@@ -3,9 +3,8 @@ package top.tanmw.generator;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -19,7 +18,9 @@ import static top.tanmw.generator.ProjectPattern.MULTI;
 public class Generator {
 
     public static void main(String[] args) throws Exception {
-        final String url = Generator.class.getClassLoader().getResource("generator.txt").getPath().toString();
+        final String url = Generator.class.getClassLoader().getResource("generator.properties").getPath().toString();
+        // InputStream inputStream = Generator.class.getClassLoader().getResourceAsStream("generator.properties");
+        // properties.load(new InputStreamReader(inputStream,"UTF-8"));
         run(url);
     }
 
@@ -52,6 +53,7 @@ public class Generator {
         }
         model.setExcludePrefix(properties.getProperty("excludePrefix"));
         model.setIncludeSet(properties.getProperty("includeSet"));
+        model.setIncludeSetComment(properties.getProperty("includeSetComment"));
         model.setExcludeSet(properties.getProperty("excludeSet"));
         model.setReplace(false);
         if (StrUtil.isNotBlank(properties.getProperty("replace"))) {
@@ -88,7 +90,7 @@ public class Generator {
     public static Properties getProperties(String url) throws Exception {
         Properties properties = new Properties();
         File file = new File(url);
-        InputStream in = new FileInputStream(file);
+        InputStreamReader in = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
         properties.load(in);
         return properties;
     }
