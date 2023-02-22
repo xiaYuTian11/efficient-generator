@@ -103,7 +103,8 @@ public class CodeGenerateUtils {
         excludePrefix = generatorModel.getExcludePrefix();
         isReplace = generatorModel.isReplace();
         fileType = generatorModel.getFileType();
-        basePackageName = PROJECT_PREFIX + packageName;
+        // basePackageName = PROJECT_PREFIX + packageName;
+        basePackageName = packageName;
         basePackagePath = basePackageName.replaceAll("\\.", "/");
         projectPattern = ProjectPattern.getPattern(generatorModel.getPattern());
         if (Objects.equals(SINGLE, projectPattern)) {
