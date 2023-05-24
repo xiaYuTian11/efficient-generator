@@ -8,7 +8,8 @@ import cn.hutool.core.util.StrUtil;
  */
 public enum ProjectPattern {
     SINGLE("single"),
-    MULTI("multi");
+    MULTI("multi"),
+    CUSTOM("custom");
     private String desc;
 
     ProjectPattern(String desc) {

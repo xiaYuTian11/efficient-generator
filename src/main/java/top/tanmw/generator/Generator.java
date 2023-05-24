@@ -2,8 +2,11 @@ package top.tanmw.generator;
 
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
+import top.tanmw.generator.model.CodePathModel;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +21,25 @@ import static top.tanmw.generator.ProjectPattern.MULTI;
 public class Generator {
 
     public static void main(String[] args) throws Exception {
-        final String url = Generator.class.getClassLoader().getResource("generator.properties").getPath().toString();
-        // InputStream inputStream = Generator.class.getClassLoader().getResourceAsStream("generator.properties");
-        // properties.load(new InputStreamReader(inputStream,"UTF-8"));
-        run(url);
+        String url = Generator.class.getClassLoader().getResource("generator.properties").getPath().toString();
+
+        GeneratorModel model = init(url);
+        CodePathModel build = CodePathModel.builder()
+                .controllerPath("zenith-front-web/src/main/java/com/zenith/front/web/controller/st")
+                .apiPath("zenith-front-api/src/main/java/com/zenith/front/api/st")
+                .servicePath("zenith-front-station/src/main/java/com/zenith/front/station/service/talent")
+                .daoPath("zenith-front-dao/src/main/java/com/zenith/front/dao/mapper/st")
+                .modelEntityPath("zenith-front-model/src/main/java/com/zenith/front/model/bean")
+                .modelConverterPath("zenith-front-model/src/main/java/com/zenith/front/model/converter")
+                .modelDtoPath("zenith-front-model/src/main/java/com/zenith/front/model/dto")
+                .modelVoPath("zenith-front-model/src/main/java/com/zenith/front/model/vo")
+                .mapperPath("zenith-front-dao/src/main/java/com/zenith/front/dao/mapper/xml")
+                .build();
+        model.setCodePathModel(build);
+        generate(model);
     }
 
-    public static void run(String url) throws Exception {
+    public static GeneratorModel init(String url) throws Exception {
         final Properties properties = getProperties(url);
         GeneratorModel model = new GeneratorModel();
         model.setUrl(properties.getProperty("url"));
@@ -83,11 +98,7 @@ public class Generator {
             }
         }
         model.setFileType(list);
-        CodeGenerateUtils codeGenerateUtils = new CodeGenerateUtils();
-        codeGenerateUtils.init(model);
-        codeGenerateUtils.initTableMapName();
-        FreeMarkerTemplateUtils.init(model.getTemplatePath());
-        codeGenerateUtils.generate();
+        return model;
     }
 
     public static Properties getProperties(String url) throws Exception {
@@ -96,6 +107,14 @@ public class Generator {
         InputStreamReader in = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
         properties.load(in);
         return properties;
+    }
+
+    public static void generate(GeneratorModel model) throws Exception {
+        CodeGenerateUtils codeGenerateUtils = new CodeGenerateUtils();
+        codeGenerateUtils.init(model);
+        codeGenerateUtils.initTableMapName();
+        FreeMarkerTemplateUtils.init(model.getTemplatePath());
+        codeGenerateUtils.generate();
     }
 
 }

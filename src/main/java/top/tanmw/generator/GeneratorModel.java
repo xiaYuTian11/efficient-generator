@@ -1,11 +1,9 @@
 package top.tanmw.generator;
 
 import cn.hutool.core.util.StrUtil;
+import top.tanmw.generator.model.CodePathModel;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 代码生成器模型
@@ -75,6 +73,8 @@ public class GeneratorModel {
     private Set<String> includeSetComment;
     private Set<String> excludeSet;
     private Set<String> excludePrefix;
+
+    private CodePathModel codePathModel;
 
     public String getPackageName() {
         return packageName;
@@ -250,5 +250,16 @@ public class GeneratorModel {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public CodePathModel getCodePathModel() {
+        if(Objects.isNull(codePathModel)){
+            codePathModel = CodePathModel.builder().build();
+        }
+        return codePathModel;
+    }
+
+    public void setCodePathModel(CodePathModel codePathModel) {
+        this.codePathModel = codePathModel;
     }
 }

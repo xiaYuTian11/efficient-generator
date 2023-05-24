@@ -6,6 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import freemarker.template.Template;
 import top.tanmw.generator.db.DbFactory;
 import top.tanmw.generator.db.DbQuery;
+import top.tanmw.generator.model.CodePathModel;
+import top.tanmw.generator.util.PackageUtil;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -16,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static top.tanmw.generator.PathConstants.*;
-import static top.tanmw.generator.ProjectPattern.SINGLE;
+import static top.tanmw.generator.ProjectPattern.*;
 
 /**
  * 代码生成器启动类，Generate.java暂时未作使用
@@ -76,6 +78,14 @@ public class CodeGenerateUtils {
      * 模块描述
      */
     private String tableDescribe;
+    /**
+     * 是否自定义路径
+     */
+    private boolean isCustomPath;
+    /**
+     * 模型路径
+     */
+    private CodePathModel codePathModel;
 
     public void initTableMapName() {
         includeMapName = new HashMap<>();
@@ -95,6 +105,7 @@ public class CodeGenerateUtils {
         driver = generatorModel.getDriver();
         user = generatorModel.getUser();
         password = generatorModel.getPassword();
+
         basePath = generatorModel.getBasePath();
         projectName = generatorModel.getProjectName();
         packageName = generatorModel.getPackageName();
@@ -105,7 +116,7 @@ public class CodeGenerateUtils {
         isReplace = generatorModel.isReplace();
         fileType = generatorModel.getFileType();
         author = generatorModel.getAuthor();
-        if(StrUtil.isBlank(author)){
+        if (StrUtil.isBlank(author)) {
             author = AUTHOR;
         }
         // basePackageName = PROJECT_PREFIX + packageName;
@@ -120,7 +131,7 @@ public class CodeGenerateUtils {
             baseDaoPath = JAVA_PREFIX + basePackagePath;
             baseModelPath = JAVA_PREFIX + basePackagePath;
             baseMapperPath = RESOURCES_PREFIX;
-        } else {
+        } else if (Objects.equals(MULTI, projectPattern)) {
             // 多模块
             baseControllerPath = projectName + RAIL + WEB + JAVA_PREFIX + basePackagePath;
             baseApiPath = projectName + RAIL + API + JAVA_PREFIX + basePackagePath;
@@ -128,6 +139,18 @@ public class CodeGenerateUtils {
             baseDaoPath = projectName + RAIL + DAO + JAVA_PREFIX + basePackagePath;
             baseMapperPath = projectName + RAIL + DAO + RESOURCES_PREFIX;
             baseModelPath = projectName + RAIL + MODEL + JAVA_PREFIX + basePackagePath;
+        } else if (Objects.equals(CUSTOM, projectPattern)) {
+            // 自定义
+            isCustomPath = true;
+            codePathModel = generatorModel.getCodePathModel();
+            codePathModel.setControllerPackageName(PackageUtil.pathToPackage(codePathModel.getControllerPath()));
+            codePathModel.setApiPackageName(PackageUtil.pathToPackage(codePathModel.getApiPath()));
+            codePathModel.setServicePackageName(PackageUtil.pathToPackage(codePathModel.getServicePath()));
+            codePathModel.setDaoPackageName(PackageUtil.pathToPackage(codePathModel.getDaoPath()));
+            codePathModel.setModelEntityPackageName(PackageUtil.pathToPackage(codePathModel.getModelEntityPath()));
+            codePathModel.setModelConverterPackageName(PackageUtil.pathToPackage(codePathModel.getModelConverterPath()));
+            codePathModel.setModelDtoPackageName(PackageUtil.pathToPackage(codePathModel.getModelDtoPath()));
+            codePathModel.setModelVoPackageName(PackageUtil.pathToPackage(codePathModel.getModelVoPath()));
         }
 
         dbQuery = DbFactory.getDbQuery(generatorModel.getUrl());
@@ -281,11 +304,21 @@ public class CodeGenerateUtils {
 
     private void generateModelFile(ResultSet resultSet) throws Exception {
         final String suffix = ".java";
-        String path = getCreatePath(baseModelPath, MODEL + SLASH + ENTITY, suffix);
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getModelEntityPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseModelPath, MODEL + SLASH + ENTITY, suffix);
+        }
+
         final String templateName = "Model.ftl";
         File mapperFile = new File(path);
         this.checkFilePath(mapperFile);
-        generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, MODEL + SLASH + ENTITY);
+        if (isCustomPath) {
+            generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, codePathModel.getModelEntityPackageName());
+        } else {
+            generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, MODEL + SLASH + ENTITY);
+        }
         System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + ".java 完成 >>>>>>>>>>>");
     }
 
@@ -342,75 +375,152 @@ public class CodeGenerateUtils {
 
     private void generateListDTOFile(ResultSet resultSet) throws Exception {
         final String suffix = "ListDTO.java";
-        String path = getCreatePath(baseModelPath, MODEL + SLASH + DTO, suffix);
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getModelDtoPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseModelPath, MODEL + SLASH + DTO, suffix);
+        }
+
         final String templateName = "ListDTO.ftl";
         File mapperFile = new File(path);
         this.checkFilePath(mapperFile);
-        generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, MODEL + SLASH + DTO);
+        if (isCustomPath) {
+            generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, codePathModel.getModelDtoPackageName());
+        } else {
+            generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, MODEL + SLASH + DTO);
+        }
+
         System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "ListDTO.java 完成 >>>>>>>>>>>");
     }
 
     private void generateVOFile(ResultSet resultSet) throws Exception {
         final String suffix = "VO.java";
-        String path = getCreatePath(baseModelPath, MODEL + SLASH + VO, suffix);
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getModelVoPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseModelPath, MODEL + SLASH + VO, suffix);
+        }
+
         final String templateName = "VO.ftl";
         File mapperFile = new File(path);
         this.checkFilePath(mapperFile);
-        generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, MODEL + SLASH + VO);
+        if (isCustomPath) {
+            generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, codePathModel.getModelVoPackageName());
+        } else {
+            generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, MODEL + SLASH + VO);
+        }
         System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "VO.java 完成 >>>>>>>>>>>");
     }
 
     private void generateDTOFile(ResultSet resultSet) throws Exception {
         final String suffix = "DTO.java";
-        String path = getCreatePath(baseModelPath, MODEL + SLASH + DTO, suffix);
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getModelDtoPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseModelPath, MODEL + SLASH + DTO, suffix);
+        }
+
         final String templateName = "DTO.ftl";
         File mapperFile = new File(path);
         this.checkFilePath(mapperFile);
-        generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, MODEL + SLASH + DTO);
+        if (isCustomPath) {
+            generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, codePathModel.getModelDtoPackageName());
+        } else {
+            generateModelAndDTOAndVoFile(resultSet, templateName, mapperFile, MODEL + SLASH + DTO);
+        }
+
         System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "DTO.java 完成 >>>>>>>>>>>");
     }
 
     private void generateConverterFile(ResultSet resultSet) throws Exception {
         final String suffix = "Converter.java";
-        String path = getCreatePath(baseModelPath, MODEL + SLASH + CONVERTER, suffix);
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getModelConverterPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseModelPath, MODEL + SLASH + CONVERTER, suffix);
+        }
+
         final String templateName = "Converter.ftl";
         File mapperFile = new File(path);
         checkFilePath(mapperFile);
         Map<String, Object> dataMap = new HashMap<>();
-        generateFileByTemplate(templateName, MODEL + SLASH + CONVERTER, mapperFile, dataMap);
+        if (isCustomPath) {
+            generateFileByTemplate(templateName, codePathModel.getModelConverterPackageName(), mapperFile, dataMap);
+        } else {
+            generateFileByTemplate(templateName, MODEL + SLASH + CONVERTER, mapperFile, dataMap);
+        }
+
         System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "Converter.java 完成 >>>>>>>>>>>");
     }
 
     private void generateControllerFile(ResultSet resultSet) throws Exception {
         final String suffix = "Controller.java";
-        String path = getCreatePath(baseControllerPath, CONTROLLER, suffix);
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getControllerPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseControllerPath, CONTROLLER, suffix);
+        }
+
         final String templateName = "Controller.ftl";
         File mapperFile = new File(path);
         checkFilePath(mapperFile);
         Map<String, Object> dataMap = new HashMap<>();
-        generateFileByTemplate(templateName, CONTROLLER, mapperFile, dataMap);
+        if (isCustomPath) {
+            generateFileByTemplate(templateName, codePathModel.getControllerPackageName(), mapperFile, dataMap);
+        } else {
+            generateFileByTemplate(templateName, CONTROLLER, mapperFile, dataMap);
+        }
+
         System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "Controller.java 完成 >>>>>>>>>>>");
     }
 
     private void generateServiceImplFile(ResultSet resultSet) throws Exception {
         final String suffix = "ServiceImpl.java";
-        String path = getCreatePath(baseServicePath, SERVICE, suffix);
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getServicePath(), "", suffix);
+        } else {
+            path = getCreatePath(baseServicePath, SERVICE, suffix);
+        }
+
         final String templateName = "ServiceImpl.ftl";
         File mapperFile = new File(path);
         checkFilePath(mapperFile);
         Map<String, Object> dataMap = new HashMap<>();
-        generateFileByTemplate(templateName, SERVICE, mapperFile, dataMap);
+
+        if (isCustomPath) {
+            generateFileByTemplate(templateName, codePathModel.getServicePackageName(), mapperFile, dataMap);
+        } else {
+            generateFileByTemplate(templateName, SERVICE, mapperFile, dataMap);
+        }
+
         System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "ServiceImpl.java 完成 >>>>>>>>>>>");
     }
 
     private void generateServiceInterfaceFile(ResultSet resultSet) throws Exception {
         final String suffix = "Service.java";
-        String path = getCreatePath(baseApiPath, API, suffix);
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getApiPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseApiPath, API, suffix);
+        }
+
         final String templateName = "Service.ftl";
         File mapperFile = new File(path);
         checkFilePath(mapperFile);
         Map<String, Object> dataMap = new HashMap<>();
-        generateFileByTemplate(templateName, API, mapperFile, dataMap);
+        if (isCustomPath) {
+            generateFileByTemplate(templateName, codePathModel.getApiPackageName(), mapperFile, dataMap);
+        } else {
+            generateFileByTemplate(templateName, API, mapperFile, dataMap);
+        }
+
         System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "Service.java 完成 >>>>>>>>>>>");
     }
 
@@ -428,12 +538,22 @@ public class CodeGenerateUtils {
      */
     private void generateDaoFile(ResultSet resultSet) throws Exception {
         final String suffix = "Mapper.java";
-        String path = getCreatePath(baseDaoPath, DAO, suffix);
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getDaoPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseDaoPath, DAO, suffix);
+        }
         final String templateName = "Mapper.ftl";
         File mapperFile = new File(path);
         checkFilePath(mapperFile);
         Map<String, Object> dataMap = new HashMap<>();
-        generateFileByTemplate(templateName, DAO, mapperFile, dataMap);
+        if (isCustomPath) {
+            generateFileByTemplate(templateName, codePathModel.getDaoPackageName(), mapperFile, dataMap);
+        } else {
+            generateFileByTemplate(templateName, DAO, mapperFile, dataMap);
+        }
+
         System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "Mapper.java 完成 >>>>>>>>>>>");
     }
 
@@ -442,7 +562,13 @@ public class CodeGenerateUtils {
      */
     private void generateMapperFile(ResultSet resultSet) throws Exception {
         final String suffix = "Mapper.xml";
-        String path = getCreatePath(baseMapperPath, MAPPER, suffix);
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getMapperPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseMapperPath, MAPPER, suffix);
+        }
+
         final String templateName = "Mapper.xml.ftl";
         File mapperFile = new File(path);
         checkFilePath(mapperFile);
@@ -470,14 +596,27 @@ public class CodeGenerateUtils {
         dataMap.put("date", DateUtil.formatDateTime(new Date()));
         dataMap.put("primary_key_field", primaryKeyFieldName);
         dataMap.put("primary_key_field_method", primaryKeyFieldMethodName);
-        dataMap.put("dto_package_name", getSuffixPackageName(MODEL + SLASH + DTO));
-        dataMap.put("vo_package_name", getSuffixPackageName(MODEL + SLASH + VO));
-        dataMap.put("entity_package_name", getSuffixPackageName(MODEL + SLASH + ENTITY));
-        dataMap.put("package_name", getSuffixPackageName(packagePath));
-        dataMap.put("api_package_name", getSuffixPackageName(API));
-        dataMap.put("service_package_name", getSuffixPackageName(SERVICE));
-        dataMap.put("converter_package_name", getSuffixPackageName(MODEL + SLASH + CONVERTER));
-        dataMap.put("dao_package_name", getSuffixPackageName(DAO));
+
+        if (isCustomPath) {
+            dataMap.put("dto_package_name", codePathModel.getModelDtoPackageName());
+            dataMap.put("vo_package_name", codePathModel.getModelVoPackageName());
+            dataMap.put("entity_package_name", codePathModel.getModelEntityPackageName());
+            dataMap.put("package_name", packagePath);
+            dataMap.put("api_package_name", codePathModel.getApiPackageName());
+            dataMap.put("service_package_name", codePathModel.getServicePackageName());
+            dataMap.put("converter_package_name", codePathModel.getModelConverterPackageName());
+            dataMap.put("dao_package_name", codePathModel.getDaoPackageName());
+        } else {
+            dataMap.put("dto_package_name", getSuffixPackageName(MODEL + SLASH + DTO));
+            dataMap.put("vo_package_name", getSuffixPackageName(MODEL + SLASH + VO));
+            dataMap.put("entity_package_name", getSuffixPackageName(MODEL + SLASH + ENTITY));
+            dataMap.put("package_name", getSuffixPackageName(packagePath));
+            dataMap.put("api_package_name", getSuffixPackageName(API));
+            dataMap.put("service_package_name", getSuffixPackageName(SERVICE));
+            dataMap.put("converter_package_name", getSuffixPackageName(MODEL + SLASH + CONVERTER));
+            dataMap.put("dao_package_name", getSuffixPackageName(DAO));
+        }
+
         // dataMap.put("table_annotation", tableAnnotation);
         Writer out = new BufferedWriter(new OutputStreamWriter(fos, StandardCharsets.UTF_8), 10240);
         template.process(dataMap, out);
