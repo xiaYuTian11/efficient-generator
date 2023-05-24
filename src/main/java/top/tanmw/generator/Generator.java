@@ -25,15 +25,15 @@ public class Generator {
 
         GeneratorModel model = init(url);
         CodePathModel build = CodePathModel.builder()
-                .controllerPath("zenith-front-web/src/main/java/com/zenith/front/web/controller/st")
-                .apiPath("zenith-front-api/src/main/java/com/zenith/front/api/st")
-                .servicePath("zenith-front-station/src/main/java/com/zenith/front/station/service/talent")
-                .daoPath("zenith-front-dao/src/main/java/com/zenith/front/dao/mapper/st")
-                .modelEntityPath("zenith-front-model/src/main/java/com/zenith/front/model/bean")
-                .modelConverterPath("zenith-front-model/src/main/java/com/zenith/front/model/converter")
-                .modelDtoPath("zenith-front-model/src/main/java/com/zenith/front/model/dto")
-                .modelVoPath("zenith-front-model/src/main/java/com/zenith/front/model/vo")
-                .mapperPath("zenith-front-dao/src/main/java/com/zenith/front/dao/mapper/xml")
+                .controllerPath("tanmw-web/src/main/java/top/tanmw/web/controller")
+                .apiPath("tanmw-api/src/main/java/top/tanmw/front/api")
+                .servicePath("tanmw-station/src/main/java/top/tanmw/front/station/service")
+                .daoPath("tanmw-dao/src/main/java/top/tanmw/dao/mapper")
+                .modelEntityPath("tanmw-model/src/main/java/top/tanmw/model/bean")
+                .modelConverterPath("tanmw-model/src/main/java/top/tanmw/model/converter")
+                .modelDtoPath("tanmw-model/src/main/java/top/tanmw/model/dto")
+                .modelVoPath("tanmw-model/src/main/java/top/tanmw/model/vo")
+                .mapperPath("tanmw-dao/src/main/java/top/tanmw/dao/mapper/xml")
                 .build();
         model.setCodePathModel(build);
         generate(model);
