@@ -4,7 +4,7 @@
 
 ## 框架
 
-代码生成器所用框架springboot+mybatis-plus+自定义[commons](https://github.com/xiaYuTian11/commons)模块
+代码生成器所用框架springboot+mybatis-plus+自定义[topmons](https://github.top/xiaYuTian11/topmons)模块
 
 ## 配置说明
 
@@ -16,8 +16,8 @@ password=postgres
 
 ## 代码生成的基础路径，不写默认是当前工程路径
 basePath=C:\\Users\\tmw\\Desktop\\test
-## 包文件路径 com.generator.demo
-packageName=com.generator.demo
+## 包文件路径 top.generator.demo
+packageName=top.generator.demo
 # single-单模块，multi-多模块
 pattern=single
 # 多模块时，需要设置统一的模块名称，如generator-web,generator-dao,则此处填写generator，自动拼接模块名称
@@ -25,7 +25,7 @@ projectName=generator
 ## 包含表名，多个 英文逗号分隔
 includeSet=sys_log
 ## 表注释，不填默认读取数据库备注
-includeSetComment=系统日志表
+includeSettopment=系统日志表
 ## 不包含表名，多个 英文逗号分隔
 excludeSet=
 ## 去掉指定前缀，如sys,sys_等,多个逗号分割
@@ -55,7 +55,24 @@ public class GeneratorTest {
     public void generator() throws Exception {
         // 传入配置文件地址
         String path = GeneratorTest.class.getResource("/generator.properties").getPath().toString();
-        Generator.run(path);
+        GeneratorModel model = init(url);
+        
+        // 需要完全自定义路径加入下面代码，否则不需要
+        CodePathModel build = CodePathModel.builder()
+                .controllerPath("tanmw-web/src/main/java/top/tanmw/web/controller")
+                .apiPath("tanmw-api/src/main/java/top/tanmw/front/api")
+                .servicePath("tanmw-station/src/main/java/top/tanmw/front/station/service")
+                .daoPath("tanmw-dao/src/main/java/top/tanmw/dao/mapper")
+                .modelEntityPath("tanmw-model/src/main/java/top/tanmw/model/bean")
+                .modelConverterPath("tanmw-model/src/main/java/top/tanmw/model/converter")
+                .modelDtoPath("tanmw-model/src/main/java/top/tanmw/model/dto")
+                .modelVoPath("tanmw-model/src/main/java/top/tanmw/model/vo")
+                .mapperPath("tanmw-dao/src/main/java/top/tanmw/dao/mapper/xml")
+                .build();
+        model.setCodePathModel(build);
+        // 自定义路径代码到此结束
+        
+        generate(model);
     }
 }
 ```
