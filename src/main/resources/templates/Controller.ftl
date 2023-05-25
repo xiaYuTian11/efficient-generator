@@ -96,4 +96,14 @@ public class ${table_name}Controller {
     public Result list(@Validated @RequestBody ${table_name}ListDTO dto) {
         return Result.ok(${lower_table_name}Service.list(dto));
     }
+
+    /**
+    * 导出
+    */
+    @RequiresPermissions
+    @PostMapping("/export")
+    @ApiOperation(value = "导出", response = Result.class)
+    public Result export(@Validated @RequestBody ${table_name}ListDTO dto) {
+        return Result.ok(${lower_table_name}Service.export(dto));
+    }
 }

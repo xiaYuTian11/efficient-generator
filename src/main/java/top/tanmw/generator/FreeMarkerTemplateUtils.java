@@ -26,9 +26,13 @@ public class FreeMarkerTemplateUtils {
             CONFIGURATION.setTemplateLoader(new ClassTemplateLoader(FreeMarkerTemplateUtils.class, "/templates"));
         } else {
             try {
-                CONFIGURATION.setDirectoryForTemplateLoading(new File(templatePath));
-            } catch (IOException e) {
-                e.printStackTrace();
+                CONFIGURATION.setTemplateLoader(new ClassTemplateLoader(FreeMarkerTemplateUtils.class, templatePath));
+            } catch (Exception e) {
+                try {
+                    CONFIGURATION.setDirectoryForTemplateLoading(new File(templatePath));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         }
         CONFIGURATION.setDefaultEncoding("UTF-8");

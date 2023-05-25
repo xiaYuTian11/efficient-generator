@@ -40,4 +40,9 @@ public interface ${table_name}Service extends IService<${table_name}> {
     * 列表查询
     */
     Page<${table_name}> list(${table_name}ListDTO dto);
+
+    /**
+    * 导出
+    */
+    Object export(${table_name}ListDTO dto);
 }
