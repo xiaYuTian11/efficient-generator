@@ -38,6 +38,43 @@ fileType=
 ## 使用外包模版,模版放在resources/templates不用配置，会默认读取外包模版
 templatePath=
 ```
+## 依赖
+```xml
+<repositories>
+    <repository>
+        <id>maven-public</id>
+        <name>maven-public</name>
+        <url>https://repo.maven.apache.org/maven2/</url>
+        <layout>default</layout>
+        <releases>
+            <enabled>true</enabled>
+        </releases>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>alimaven</id>
+        <name>aliyun maven</name>
+        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+    </repository>
+</repositories>
+<dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>top.tanmw</groupId>
+            <artifactId>efficient-generator</artifactId>
+            <version>1.3.1</version>
+        </dependency>
+        <!--    自定义数据库依赖   -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
+        </dependency>
+    </dependencies>
+</dependencies>
+```
 
 ## 使用
 
