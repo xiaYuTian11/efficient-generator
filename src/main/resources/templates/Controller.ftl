@@ -2,6 +2,8 @@ package ${package_name};
 
 import com.efficient.common.result.Result;
 import com.efficient.auth.permission.Permission;
+import com.efficient.logs.annotation.Log;
+import com.efficient.logs.constant.LogEnum;
 import ${api_package_name}.${table_name}Service;
 import ${dto_package_name}.${table_name}DTO;
 import ${dto_package_name}.${table_name}ListDTO;
@@ -38,6 +40,7 @@ public class ${table_name}Controller {
     /**
     * 新增
     */
+    @Log(logOpt = LogEnum.SAVE)
     @PostMapping("/save")
     @ApiOperation(value = "保存", response = Result.class)
     public Result save(@Validated @RequestBody ${table_name}DTO dto) {
@@ -48,6 +51,7 @@ public class ${table_name}Controller {
     /**
     * 详情
     */
+    @Log(logOpt = LogEnum.QUERY)
     @GetMapping("/find")
     @ApiOperation(value = "详情", response = Result.class)
     @ApiImplicitParams({
@@ -61,6 +65,7 @@ public class ${table_name}Controller {
     /**
     * 修改
     */
+    @Log(logOpt = LogEnum.UPDATE)
     @PostMapping("/update")
     @ApiOperation(value = "修改", response = Result.class)
     public Result update(@Validated @RequestBody ${table_name}DTO dto) {
@@ -71,6 +76,7 @@ public class ${table_name}Controller {
     /**
     * 删除
     */
+    @Log(logOpt = LogEnum.DELETE)
     @GetMapping("/delete")
     @ApiOperation(value = "删除", response = Result.class)
     @ApiImplicitParams({
@@ -84,6 +90,7 @@ public class ${table_name}Controller {
     /**
     * 列表
     */
+    @Log(logOpt = LogEnum.PAGE)
     @PostMapping("/list")
     @ApiOperation(value = "列表", response = Result.class)
     public Result list(@Validated @RequestBody ${table_name}ListDTO dto) {
