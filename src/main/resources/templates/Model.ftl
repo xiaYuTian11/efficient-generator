@@ -30,7 +30,7 @@ public class ${table_name} implements Serializable {
     */
     @ApiModelProperty(value = "${model.columnComment!}")
     <#if (model.primaryKey = true)>
-    @TableId("${model.columnName}")
+    @TableId(value = "${model.columnName}", type = IdType.ASSIGN_UUID)
     <#else>
     @TableField("${model.columnName}")
     </#if>
@@ -49,8 +49,8 @@ public class ${table_name} implements Serializable {
     <#if (model.columnType = 'bigint' || model.columnType = 'int8')>
     private Long ${model.changeColumnName?uncap_first};
     </#if>
-    <#if (model.columnType = 'binary')>
-    private Byte[] ${model.changeColumnName?uncap_first};
+    <#if (model.columnType = 'binary' || model.columnType = 'blob' ||model.columnType = 'longblob')>
+    private byte[] ${model.changeColumnName?uncap_first};
     </#if>
     <#if model.columnType = 'numeric' ||  model.columnType = 'decimal' ||  model.columnType = 'number'>
     private java.math.BigDecimal ${model.changeColumnName?uncap_first};

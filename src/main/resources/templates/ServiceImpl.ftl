@@ -59,34 +59,4 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
         final Page<${table_name}> page = ${lower_table_name}Mapper.selectPage(new Page<>(dto.getPageNum(), dto.getPageSize()), new QueryWrapper<>());
         return page;
     }
-
-    /**
-    * 导出
-    */
-    @Override
-    public BaseExportVO export(${table_name}ListDTO dto) {
-    BaseExportVO result = new BaseExportVO();
-        // 查询数据
-        dto.setPageNum(1);
-        dto.setPageSize(Integer.MAX_VALUE);
-        Page<${table_name}> page = this.list(dto);
-        List<${table_name}> list = page.getRecords();
-        // 添加序号
-        AtomicInteger no = new AtomicInteger(1);
-        List<${table_name}VO> dataList = list.stream().map(e -> {
-            ${table_name}VO vo = ${lower_table_name}Converter.entity2Vo(e);
-            // vo.setNo(no.getAndIncrement());
-            return vo;
-        }).collect(Collectors.toList());
-        // 导出文件
-        final Date currentDate = DateUtil.date();
-        final String fileName = "替换文件名称.xlsx";
-        final String targetFilePath = "替换生成目录" + "/" + fileName;
-        final String templatePath = "替换模版文件夹目录" + "/替换模版名称.xlsx";
-        EasyExcel.write(targetFilePath).withTemplate(templatePath).sheet().doFill(dataList);
-        result.setUrl("导出文件相对目录" + "/" + fileName);
-        result.setExportDate(currentDate);
-        result.setName("替换导出文件名称.xlsx");
-        return result;
-    }
 }
