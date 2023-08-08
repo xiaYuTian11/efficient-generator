@@ -42,8 +42,8 @@ public class ${table_name}Controller {
     */
     @Log(logOpt = LogEnum.SAVE)
     @PostMapping("/save")
-    @ApiOperation(value = "保存", response = Result.class)
-    public Result save(@Validated @RequestBody ${table_name}DTO dto) {
+    @ApiOperation(value = "保存")
+    public Result<${table_name}> save(@Validated @RequestBody ${table_name}DTO dto) {
         ${table_name} entity = ${lower_table_name}Service.save(dto);
         return Result.ok(entity);
     }
@@ -53,11 +53,11 @@ public class ${table_name}Controller {
     */
     @Log(logOpt = LogEnum.QUERY)
     @GetMapping("/find")
-    @ApiOperation(value = "详情", response = Result.class)
+    @ApiOperation(value = "详情")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据唯一标识", required = true)
     })
-    public Result find(@NotBlank(message = "id 不能为空") @RequestParam(name="id") String id) {
+    public Result<${table_name}VO> find(@NotBlank(message = "id 不能为空") @RequestParam(name="id") String id) {
         ${table_name}VO entity = ${lower_table_name}Service.findById(id);
         return Result.ok(entity);
     }
@@ -67,8 +67,8 @@ public class ${table_name}Controller {
     */
     @Log(logOpt = LogEnum.UPDATE)
     @PostMapping("/update")
-    @ApiOperation(value = "修改", response = Result.class)
-    public Result update(@Validated @RequestBody ${table_name}DTO dto) {
+    @ApiOperation(value = "修改")
+    public Result<Boolean> update(@Validated @RequestBody ${table_name}DTO dto) {
         boolean flag = ${lower_table_name}Service.update(dto);
         return flag ? Result.ok() : Result.fail();
     }
@@ -78,11 +78,11 @@ public class ${table_name}Controller {
     */
     @Log(logOpt = LogEnum.DELETE)
     @GetMapping("/delete")
-    @ApiOperation(value = "删除", response = Result.class)
+    @ApiOperation(value = "删除")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据唯一标识", required = true)
     })
-    public Result delete(@NotBlank(message = "id 不能为空") @RequestParam(name="id") String id) {
+    public Result<Boolean> delete(@NotBlank(message = "id 不能为空") @RequestParam(name="id") String id) {
         boolean flag = ${lower_table_name}Service.delete(id);
         return flag ? Result.ok() : Result.fail();
     }
