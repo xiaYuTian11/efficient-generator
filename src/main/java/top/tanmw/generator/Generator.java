@@ -69,6 +69,7 @@ public class Generator {
             model.setPattern(MULTI.getDesc());
         }
         model.setExcludePrefix(properties.getProperty("excludePrefix"));
+        model.setIncludePrefix(properties.getProperty("includePrefix"));
         model.setIncludeSet(properties.getProperty("includeSet"));
         model.setIncludeSetComment(properties.getProperty("includeSetComment"));
         model.setExcludeSet(properties.getProperty("excludeSet"));

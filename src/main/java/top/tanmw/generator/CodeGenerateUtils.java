@@ -28,6 +28,7 @@ import static top.tanmw.generator.ProjectPattern.*;
  */
 public class CodeGenerateUtils {
 
+    private final List<ColumnClass> columnClassList = new ArrayList<>();
     private String url;
     private String driver;
     private String user;
@@ -42,7 +43,6 @@ public class CodeGenerateUtils {
     private Map<String, String> includeMapName;
     private Set<String> excludeSet;
     private Set<String> excludePrefix;
-
     private String basePackageName;
     private String basePackagePath;
     private String baseControllerPath;
@@ -54,8 +54,6 @@ public class CodeGenerateUtils {
     private DbQuery dbQuery;
     private Boolean isReplace;
     private ProjectPattern projectPattern;
-
-    private final List<ColumnClass> columnClassList = new ArrayList<>();
     /**
      * 表名
      */
@@ -78,6 +76,10 @@ public class CodeGenerateUtils {
      * 模块描述
      */
     private String tableDescribe;
+    /**
+     * 前缀
+     */
+    private String includePrefix;
     /**
      * 是否自定义路径
      */
@@ -107,6 +109,7 @@ public class CodeGenerateUtils {
         password = generatorModel.getPassword();
 
         basePath = generatorModel.getBasePath();
+        includePrefix = generatorModel.getIncludePrefix();
         projectName = generatorModel.getProjectName();
         packageName = generatorModel.getPackageName();
         includeSet = generatorModel.getIncludeSet();
@@ -171,6 +174,11 @@ public class CodeGenerateUtils {
             if (excludeSet.size() > 0) {
                 tables = tables.stream().filter(tableNameStr -> !excludeSet.contains(tableNameStr)).collect(Collectors.toSet());
             }
+
+            if (StrUtil.isNotBlank(includePrefix)) {
+                tables = tables.stream().filter(tableNameStr -> StrUtil.startWithIgnoreCase(tableNameStr, includePrefix)).collect(Collectors.toSet());
+            }
+
             if (tables.size() < 1) {
                 throw new RuntimeException("未发现可生成表");
             }
@@ -285,21 +293,6 @@ public class CodeGenerateUtils {
     private String getCreatePath(String baseFilePath, String filePath, String suffix) {
         final String path = basePath + File.separator + baseFilePath + File.separator + filePath + File.separator + changeTableName + suffix;
         return path.replace("\\", "/");
-    }
-
-    private String getSuffixPackageName(String packagePath) {
-        if (StrUtil.isBlank(packagePath)) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        if (packagePath.contains(SLASH)) {
-            final String[] split = packagePath.split(SLASH);
-            for (String str : split) {
-                sb.append(str).append(DOT);
-            }
-            return basePackageName + DOT + sb.substring(0, sb.length() - 1);
-        }
-        return basePackageName + DOT + packagePath;
     }
 
     private void generateModelFile(ResultSet resultSet) throws Exception {
@@ -533,50 +526,6 @@ public class CodeGenerateUtils {
         generateFileByTemplate(templateName, mapperFile, dataMap);
     }
 
-    /**
-     * Mapper.java
-     */
-    private void generateDaoFile(ResultSet resultSet) throws Exception {
-        final String suffix = "Mapper.java";
-        String path;
-        if (isCustomPath) {
-            path = getCreatePath(codePathModel.getDaoPath(), "", suffix);
-        } else {
-            path = getCreatePath(baseDaoPath, DAO, suffix);
-        }
-        final String templateName = "Mapper.ftl";
-        File mapperFile = new File(path);
-        checkFilePath(mapperFile);
-        Map<String, Object> dataMap = new HashMap<>();
-        if (isCustomPath) {
-            generateFileByTemplate(templateName, codePathModel.getDaoPackageName(), mapperFile, dataMap);
-        } else {
-            generateFileByTemplate(templateName, DAO, mapperFile, dataMap);
-        }
-
-        System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "Mapper.java 完成 >>>>>>>>>>>");
-    }
-
-    /**
-     * Mapper.xml
-     */
-    private void generateMapperFile(ResultSet resultSet) throws Exception {
-        final String suffix = "Mapper.xml";
-        String path;
-        if (isCustomPath) {
-            path = getCreatePath(codePathModel.getMapperPath(), "", suffix);
-        } else {
-            path = getCreatePath(baseMapperPath, MAPPER, suffix);
-        }
-
-        final String templateName = "Mapper.xml.ftl";
-        File mapperFile = new File(path);
-        checkFilePath(mapperFile);
-        Map<String, Object> dataMap = new HashMap<>();
-        generateFileByTemplate(templateName, mapperFile, dataMap);
-        System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "Mapper.xml 完成 >>>>>>>>>>>");
-    }
-
     private void generateFileByTemplate(final String templateName, File file, Map<String, Object> dataMap) throws Exception {
         this.generateFileByTemplate(templateName, null, file, dataMap);
     }
@@ -622,6 +571,72 @@ public class CodeGenerateUtils {
         template.process(dataMap, out);
     }
 
+    /**
+     * 生成serialVersionUID
+     */
+    protected String getSerialVersionUID() {
+        return String.valueOf(Math.abs(UUID.randomUUID().getMostSignificantBits())) + "L";
+    }
+
+    private String getSuffixPackageName(String packagePath) {
+        if (StrUtil.isBlank(packagePath)) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        if (packagePath.contains(SLASH)) {
+            final String[] split = packagePath.split(SLASH);
+            for (String str : split) {
+                sb.append(str).append(DOT);
+            }
+            return basePackageName + DOT + sb.substring(0, sb.length() - 1);
+        }
+        return basePackageName + DOT + packagePath;
+    }
+
+    /**
+     * Mapper.java
+     */
+    private void generateDaoFile(ResultSet resultSet) throws Exception {
+        final String suffix = "Mapper.java";
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getDaoPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseDaoPath, DAO, suffix);
+        }
+        final String templateName = "Mapper.ftl";
+        File mapperFile = new File(path);
+        checkFilePath(mapperFile);
+        Map<String, Object> dataMap = new HashMap<>();
+        if (isCustomPath) {
+            generateFileByTemplate(templateName, codePathModel.getDaoPackageName(), mapperFile, dataMap);
+        } else {
+            generateFileByTemplate(templateName, DAO, mapperFile, dataMap);
+        }
+
+        System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "Mapper.java 完成 >>>>>>>>>>>");
+    }
+
+    /**
+     * Mapper.xml
+     */
+    private void generateMapperFile(ResultSet resultSet) throws Exception {
+        final String suffix = "Mapper.xml";
+        String path;
+        if (isCustomPath) {
+            path = getCreatePath(codePathModel.getMapperPath(), "", suffix);
+        } else {
+            path = getCreatePath(baseMapperPath, MAPPER, suffix);
+        }
+
+        final String templateName = "Mapper.xml.ftl";
+        File mapperFile = new File(path);
+        checkFilePath(mapperFile);
+        Map<String, Object> dataMap = new HashMap<>();
+        generateFileByTemplate(templateName, mapperFile, dataMap);
+        System.out.println("<<<<<<<<<<<< 生成 " + changeTableName + "Mapper.xml 完成 >>>>>>>>>>>");
+    }
+
     private void checkFilePath(File file) {
         if (!file.exists()) {
             file.getParentFile().mkdirs();
@@ -629,13 +644,6 @@ public class CodeGenerateUtils {
         if (!isReplace && file.exists()) {
             throw new RuntimeException(String.format("路径下文件已存在，如需替换请修改配置！\r\n %s", file.getAbsolutePath()));
         }
-    }
-
-    /**
-     * 生成serialVersionUID
-     */
-    protected String getSerialVersionUID() {
-        return String.valueOf(Math.abs(UUID.randomUUID().getMostSignificantBits())) + "L";
     }
 
     public String replaceUnderLineAndUpperCase(String str) {

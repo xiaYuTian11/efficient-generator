@@ -76,6 +76,8 @@ public class GeneratorModel {
 
     private CodePathModel codePathModel;
 
+    private String includePrefix;
+
     public String getPackageName() {
         return packageName;
     }
@@ -261,5 +263,13 @@ public class GeneratorModel {
 
     public void setCodePathModel(CodePathModel codePathModel) {
         this.codePathModel = codePathModel;
+    }
+
+    public String getIncludePrefix() {
+        return includePrefix;
+    }
+
+    public void setIncludePrefix(String includePrefix) {
+        this.includePrefix = includePrefix;
     }
 }
