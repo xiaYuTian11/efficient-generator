@@ -25,7 +25,7 @@ public class ${table_name}DTO {
     *${model.columnComment!}
     */
     @ApiModelProperty(value = "${model.columnComment!}")
-    <#if (model.columnType = 'bigint' || model.columnType = 'int8')>
+    <#if (model.columnType = 'bigint' || model.columnType = 'int8' || model.columnType = 'bigserial')>
     private Long ${model.changeColumnName?uncap_first};
     </#if>
     <#if (model.columnType = 'varchar' || model.columnType = 'text' || model.columnType = 'varchar2'

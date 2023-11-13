@@ -46,7 +46,7 @@ public class ${table_name} implements Serializable {
     || model.columnType = 'int4' || model.columnType = 'integer' || model.columnType = 'bit'>
     private Integer ${model.changeColumnName?uncap_first};
     </#if>
-    <#if (model.columnType = 'bigint' || model.columnType = 'int8')>
+    <#if (model.columnType = 'bigint' || model.columnType = 'int8' || model.columnType = 'bigserial')>
     private Long ${model.changeColumnName?uncap_first};
     </#if>
     <#if (model.columnType = 'binary' || model.columnType = 'blob' ||model.columnType = 'longblob')>
