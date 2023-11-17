@@ -542,7 +542,7 @@ public class CodeGenerateUtils {
         dataMap.put("lower_table_name", StrUtil.lowerFirst(changeTableName));
         dataMap.put("author", author);
         if(StrUtil.isNotBlank(tableDescribe)){
-            tableDescribe = tableDescribe.replace("\\n", "");
+            tableDescribe = tableDescribe.replaceAll("\\n", "");
         }
         dataMap.put("table_describe", tableDescribe);
         dataMap.put("date", DateUtil.formatDateTime(new Date()));
