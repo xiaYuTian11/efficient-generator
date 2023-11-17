@@ -541,6 +541,9 @@ public class CodeGenerateUtils {
         // 首字母小写驼峰
         dataMap.put("lower_table_name", StrUtil.lowerFirst(changeTableName));
         dataMap.put("author", author);
+        if(StrUtil.isNotBlank(tableDescribe)){
+            tableDescribe = tableDescribe.replace("\\n", "");
+        }
         dataMap.put("table_describe", tableDescribe);
         dataMap.put("date", DateUtil.formatDateTime(new Date()));
         dataMap.put("primary_key_field", primaryKeyFieldName);
