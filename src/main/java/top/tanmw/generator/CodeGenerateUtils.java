@@ -341,8 +341,8 @@ public class CodeGenerateUtils {
                 columnClass.setChangeColumnName(replaceUnderLineAndUpperCase(columnName));
                 // 字段在数据库的注释
                 String remarks = resultSet.getString("REMARKS");
-                if (StrUtil.isNotBlank(remarks) && (remarks.contains("\r") || remarks.contains("\n"))) {
-                    remarks = remarks.replace("\r", " ").replace("\n", " ");
+                if (StrUtil.isNotBlank(remarks) && (remarks.contains("\r") || remarks.contains("\n")||remarks.contains("\"") )) {
+                    remarks = remarks.replaceAll("\r", " ").replaceAll("\n", " ").replaceAll("\"","");
                 }
                 columnClass.setColumnComment(remarks);
                 final boolean equals = StrUtil.equals(columnClass.getColumnName(), primaryKeyColumnName);
@@ -542,7 +542,9 @@ public class CodeGenerateUtils {
         dataMap.put("lower_table_name", StrUtil.lowerFirst(changeTableName));
         dataMap.put("author", author);
         if(StrUtil.isNotBlank(tableDescribe)){
-            tableDescribe = tableDescribe.replaceAll("\\n", "").replaceAll("\\r","");
+            tableDescribe = tableDescribe.replaceAll("\\n", "")
+                    .replaceAll("\\r","")
+                    .replaceAll("\"","");
         }
         dataMap.put("table_describe", tableDescribe);
         dataMap.put("date", DateUtil.formatDateTime(new Date()));
