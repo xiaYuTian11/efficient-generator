@@ -73,6 +73,10 @@ public class Generator {
         model.setIncludeSet(properties.getProperty("includeSet"));
         model.setIncludeSetComment(properties.getProperty("includeSetComment"));
         model.setExcludeSet(properties.getProperty("excludeSet"));
+        model.setTableLogic(properties.getProperty("tableLogic"));
+        model.setTableFieldInsert(properties.getProperty("tableFieldInsert"));
+        model.setTableFieldUpdate(properties.getProperty("tableFieldUpdate"));
+        model.setTableFieldInsertUpdate(properties.getProperty("tableFieldInsertUpdate"));
         model.setReplace(false);
         if (StrUtil.isNotBlank(properties.getProperty("replace"))) {
             model.setReplace(Boolean.parseBoolean(properties.getProperty("replace")));

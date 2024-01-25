@@ -89,6 +89,11 @@ public class CodeGenerateUtils {
      */
     private CodePathModel codePathModel;
 
+    private String tableLogic;
+    private List<String> tableFieldInsertList = new ArrayList<>();
+    private List<String> tableFieldUpdateList = new ArrayList<>();
+    private List<String> tableFieldInsertUpdateList = new ArrayList<>();
+
     public void initTableMapName() {
         includeMapName = new HashMap<>();
         if (CollUtil.isNotEmpty(includeSet) && CollUtil.isNotEmpty(includeSetComment) && includeSet.size() == includeSetComment.size()) {
@@ -157,6 +162,20 @@ public class CodeGenerateUtils {
         }
 
         dbQuery = DbFactory.getDbQuery(generatorModel.getUrl());
+
+        tableLogic = generatorModel.getTableLogic();
+        String tableFieldInsert = generatorModel.getTableFieldInsert();
+        if (StrUtil.isNotBlank(tableFieldInsert)) {
+            tableFieldInsertList.addAll(Arrays.asList(tableFieldInsert.split(",")));
+        }
+        String tableFieldUpdate = generatorModel.getTableFieldUpdate();
+        if (StrUtil.isNotBlank(tableFieldUpdate)) {
+            tableFieldUpdateList.addAll(Arrays.asList(tableFieldUpdate.split(",")));
+        }
+        String tableFieldInsertUpdate = generatorModel.getTableFieldInsertUpdate();
+        if (StrUtil.isNotBlank(tableFieldInsertUpdate)) {
+            tableFieldInsertUpdateList.addAll(Arrays.asList(tableFieldInsertUpdate.split(",")));
+        }
 
     }
 
@@ -341,8 +360,8 @@ public class CodeGenerateUtils {
                 columnClass.setChangeColumnName(replaceUnderLineAndUpperCase(columnName));
                 // 字段在数据库的注释
                 String remarks = resultSet.getString("REMARKS");
-                if (StrUtil.isNotBlank(remarks) && (remarks.contains("\r") || remarks.contains("\n")||remarks.contains("\"") )) {
-                    remarks = remarks.replaceAll("\r", " ").replaceAll("\n", " ").replaceAll("\"","");
+                if (StrUtil.isNotBlank(remarks) && (remarks.contains("\r") || remarks.contains("\n") || remarks.contains("\""))) {
+                    remarks = remarks.replaceAll("\r", " ").replaceAll("\n", " ").replaceAll("\"", "");
                 }
                 columnClass.setColumnComment(remarks);
                 final boolean equals = StrUtil.equals(columnClass.getColumnName(), primaryKeyColumnName);
@@ -541,15 +560,21 @@ public class CodeGenerateUtils {
         // 首字母小写驼峰
         dataMap.put("lower_table_name", StrUtil.lowerFirst(changeTableName));
         dataMap.put("author", author);
-        if(StrUtil.isNotBlank(tableDescribe)){
+        if (StrUtil.isNotBlank(tableDescribe)) {
             tableDescribe = tableDescribe.replaceAll("\\n", "")
-                    .replaceAll("\\r","")
-                    .replaceAll("\"","");
+                    .replaceAll("\\r", "")
+                    .replaceAll("\"", "");
         }
         dataMap.put("table_describe", tableDescribe);
         dataMap.put("date", DateUtil.formatDateTime(new Date()));
         dataMap.put("primary_key_field", primaryKeyFieldName);
         dataMap.put("primary_key_field_method", primaryKeyFieldMethodName);
+
+        dataMap.put("tableLogic", tableLogic);
+        dataMap.put("tableFieldInsertList", tableFieldInsertList);
+        dataMap.put("tableFieldUpdateList", tableFieldUpdateList);
+        dataMap.put("tableFieldInsertUpdateList", tableFieldInsertUpdateList);
+
 
         if (isCustomPath) {
             dataMap.put("dto_package_name", codePathModel.getModelDtoPackageName());

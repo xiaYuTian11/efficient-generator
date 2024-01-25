@@ -77,6 +77,42 @@ public class GeneratorModel {
     private CodePathModel codePathModel;
 
     private String includePrefix;
+    private String tableLogic;
+    private String tableFieldInsert;
+    private String tableFieldUpdate;
+    private String tableFieldInsertUpdate;
+
+    public String getTableFieldInsertUpdate() {
+        return tableFieldInsertUpdate;
+    }
+
+    public void setTableFieldInsertUpdate(String tableFieldInsertUpdate) {
+        this.tableFieldInsertUpdate = tableFieldInsertUpdate;
+    }
+
+    public String getTableLogic() {
+        return tableLogic;
+    }
+
+    public void setTableLogic(String tableLogic) {
+        this.tableLogic = tableLogic;
+    }
+
+    public String getTableFieldInsert() {
+        return tableFieldInsert;
+    }
+
+    public void setTableFieldInsert(String tableFieldInsert) {
+        this.tableFieldInsert = tableFieldInsert;
+    }
+
+    public String getTableFieldUpdate() {
+        return tableFieldUpdate;
+    }
+
+    public void setTableFieldUpdate(String tableFieldUpdate) {
+        this.tableFieldUpdate = tableFieldUpdate;
+    }
 
     public String getPackageName() {
         return packageName;

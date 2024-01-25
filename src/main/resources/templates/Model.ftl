@@ -30,9 +30,20 @@ public class ${table_name} implements Serializable {
     */
     @ApiModelProperty(value = "${model.columnComment!}")
     <#if (model.primaryKey = true)>
-    @TableId(value = "${model.columnName}", type = IdType.ASSIGN_UUID)
+    @TableId(value = "${model.columnName}")
     <#else>
+        <#if tableLogic?has_content && model.columnName == tableLogic>
+    @TableLogic
     @TableField("${model.columnName}")
+        <#elseif tableFieldInsertList?has_content && tableFieldInsertList?seq_contains(model.columnName)>
+    @TableField(value = "${model.columnName}", fill = FieldFill.INSERT)
+        <#elseif tableFieldUpdateList?has_content && tableFieldUpdateList?seq_contains(model.columnName)>
+    @TableField(value = "${model.columnName}", fill = FieldFill.UPDATE)
+        <#elseif tableFieldInsertUpdateList?has_content && tableFieldInsertUpdateList?seq_contains(model.columnName)>
+    @TableField(value = "${model.columnName}", fill = FieldFill.INSERT_UPDATE)
+        <#else>
+    @TableField("${model.columnName}")
+        </#if>
     </#if>
     <#if (model.columnType = 'varchar' || model.columnType = 'text' || model.columnType = 'varchar2'
     || model.columnType = 'clob' || model.columnType = 'char' || model.columnType = 'bpchar'
