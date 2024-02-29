@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @date ${date}
 */
 public interface ${table_name}Service extends IService<${table_name}> {
+<#if crud = true >
     /***
     * 新增
     */
@@ -40,4 +41,5 @@ public interface ${table_name}Service extends IService<${table_name}> {
     * 列表查询
     */
     Page<${table_name}> list(${table_name}ListDTO dto);
+</#if>
 }

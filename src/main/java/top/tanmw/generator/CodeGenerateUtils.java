@@ -36,12 +36,14 @@ public class CodeGenerateUtils {
     private String basePath;
     private String projectName;
     private String author;
+    private boolean crud;
     private String packageName;
     // 优先
     private Set<String> includeSet;
     private Set<String> includeSetComment;
     private Map<String, String> includeMapName;
     private Set<String> excludeSet;
+    private Set<String> replacePrefixSet;
     private Set<String> excludePrefix;
     private String basePackageName;
     private String basePackagePath;
@@ -79,7 +81,7 @@ public class CodeGenerateUtils {
     /**
      * 前缀
      */
-    private String includePrefix;
+    private Set<String> includePrefix;
     /**
      * 是否自定义路径
      */
@@ -120,10 +122,12 @@ public class CodeGenerateUtils {
         includeSet = generatorModel.getIncludeSet();
         includeSetComment = generatorModel.getIncludeSetComment();
         excludeSet = generatorModel.getExcludeSet();
+        replacePrefixSet = generatorModel.getReplacePrefix();
         excludePrefix = generatorModel.getExcludePrefix();
         isReplace = generatorModel.isReplace();
         fileType = generatorModel.getFileType();
         author = generatorModel.getAuthor();
+        crud = generatorModel.isCrud();
         if (StrUtil.isBlank(author)) {
             author = AUTHOR;
         }
@@ -194,11 +198,15 @@ public class CodeGenerateUtils {
                 tables = tables.stream().filter(tableNameStr -> !excludeSet.contains(tableNameStr)).collect(Collectors.toSet());
             }
 
-            if (StrUtil.isNotBlank(includePrefix)) {
-                tables = tables.stream().filter(tableNameStr -> StrUtil.startWithIgnoreCase(tableNameStr, includePrefix)).collect(Collectors.toSet());
+            if (!includePrefix.isEmpty()) {
+                tables = tables.stream().filter(tableNameStr -> StrUtil.startWithAnyIgnoreCase(tableNameStr, includePrefix.toArray(new String[0]))).collect(Collectors.toSet());
             }
 
-            if (tables.size() < 1) {
+            if (!excludePrefix.isEmpty()) {
+                tables = tables.stream().filter(tableNameStr -> !StrUtil.startWithAnyIgnoreCase(tableNameStr, excludePrefix.toArray(new String[0]))).collect(Collectors.toSet());
+            }
+
+            if (tables.isEmpty()) {
                 throw new RuntimeException("未发现可生成表");
             }
             for (String tableNameStr : tables) {
@@ -210,8 +218,8 @@ public class CodeGenerateUtils {
                     tableDescribe = includeMapName.get(tableName);
                 }
                 String noPrefixName = tableNameStr.toLowerCase();
-                if (CollUtil.isNotEmpty(excludePrefix)) {
-                    for (String prefix : excludePrefix) {
+                if (CollUtil.isNotEmpty(replacePrefixSet)) {
+                    for (String prefix : replacePrefixSet) {
                         if (noPrefixName.toLowerCase().startsWith(prefix.toLowerCase())) {
                             noPrefixName = noPrefixName.replaceFirst(prefix.toLowerCase(), "");
                             break;
@@ -560,6 +568,7 @@ public class CodeGenerateUtils {
         // 首字母小写驼峰
         dataMap.put("lower_table_name", StrUtil.lowerFirst(changeTableName));
         dataMap.put("author", author);
+        dataMap.put("crud", crud);
         if (StrUtil.isNotBlank(tableDescribe)) {
             tableDescribe = tableDescribe.replaceAll("\\n", "")
                     .replaceAll("\\r", "")
@@ -574,7 +583,6 @@ public class CodeGenerateUtils {
         dataMap.put("tableFieldInsertList", tableFieldInsertList);
         dataMap.put("tableFieldUpdateList", tableFieldUpdateList);
         dataMap.put("tableFieldInsertUpdateList", tableFieldInsertUpdateList);
-
 
         if (isCustomPath) {
             dataMap.put("dto_package_name", codePathModel.getModelDtoPackageName());

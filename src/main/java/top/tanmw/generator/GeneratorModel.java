@@ -73,14 +73,16 @@ public class GeneratorModel {
     private Set<String> includeSetComment;
     private Set<String> excludeSet;
     private Set<String> excludePrefix;
+    private Set<String> replacePrefixSet;
 
     private CodePathModel codePathModel;
 
-    private String includePrefix;
+    private Set<String> includePrefix;
     private String tableLogic;
     private String tableFieldInsert;
     private String tableFieldUpdate;
     private String tableFieldInsertUpdate;
+    private Boolean crud;
 
     public String getTableFieldInsertUpdate() {
         return tableFieldInsertUpdate;
@@ -91,6 +93,9 @@ public class GeneratorModel {
     }
 
     public String getTableLogic() {
+        // if (StrUtil.isBlank(tableLogic)) {
+        //     return "is_delete";
+        // }
         return tableLogic;
     }
 
@@ -130,14 +135,6 @@ public class GeneratorModel {
         this.fileType = fileType;
     }
 
-    public void setIncludeSet(Set<String> includeSet) {
-        this.includeSet = includeSet;
-    }
-
-    public void setExcludeSet(Set<String> excludeSet) {
-        this.excludeSet = excludeSet;
-    }
-
     public Set<String> getExcludePrefix() {
         return excludePrefix;
     }
@@ -147,6 +144,18 @@ public class GeneratorModel {
             this.excludePrefix = new HashSet<>(Arrays.asList(excludePrefix.split(",")));
         } else {
             this.excludePrefix = new HashSet<>();
+        }
+    }
+
+    public Set<String> getReplacePrefix() {
+        return replacePrefixSet;
+    }
+
+    public void setReplacePrefix(String replacePrefixSet) {
+        if (StrUtil.isNotBlank(replacePrefixSet)) {
+            this.replacePrefixSet = new HashSet<>(Arrays.asList(replacePrefixSet.split(",")));
+        } else {
+            this.replacePrefixSet = new HashSet<>();
         }
     }
 
@@ -242,6 +251,10 @@ public class GeneratorModel {
         return includeSet;
     }
 
+    public void setIncludeSet(Set<String> includeSet) {
+        this.includeSet = includeSet;
+    }
+
     public void setIncludeSet(String includeSet) {
         if (StrUtil.isNotBlank(includeSet)) {
             this.includeSet = new HashSet<>(Arrays.asList(includeSet.split(",")));
@@ -264,6 +277,10 @@ public class GeneratorModel {
 
     public Set<String> getExcludeSet() {
         return excludeSet;
+    }
+
+    public void setExcludeSet(Set<String> excludeSet) {
+        this.excludeSet = excludeSet;
     }
 
     public void setExcludeSet(String excludeSet) {
@@ -291,7 +308,7 @@ public class GeneratorModel {
     }
 
     public CodePathModel getCodePathModel() {
-        if(Objects.isNull(codePathModel)){
+        if (Objects.isNull(codePathModel)) {
             codePathModel = CodePathModel.builder().build();
         }
         return codePathModel;
@@ -301,11 +318,30 @@ public class GeneratorModel {
         this.codePathModel = codePathModel;
     }
 
-    public String getIncludePrefix() {
+    public Set<String> getIncludePrefix() {
         return includePrefix;
     }
 
     public void setIncludePrefix(String includePrefix) {
-        this.includePrefix = includePrefix;
+        if (StrUtil.isNotBlank(includePrefix)) {
+            this.includePrefix = new HashSet<>(Arrays.asList(includePrefix.split(",")));
+        } else {
+            this.includePrefix = new HashSet<>();
+        }
+    }
+
+    public Boolean isCrud() {
+        if (Objects.isNull(crud)) {
+            return true;
+        }
+        return crud;
+    }
+
+    public void setCrud(String crud) {
+        if (StrUtil.isBlank(crud)) {
+            this.crud = true;
+        } else {
+            this.crud = StrUtil.equalsAnyIgnoreCase(crud, "true");
+        }
     }
 }

@@ -30,7 +30,7 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
     private ${table_name}Converter ${lower_table_name}Converter;
     @Autowired
     private ${table_name}Mapper ${lower_table_name}Mapper;
-
+<#if crud = true >
     @Override
     public ${table_name} save(${table_name}DTO dto) {
         ${table_name} entity = ${lower_table_name}Converter.dto2Entity(dto);
@@ -59,4 +59,5 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
         final Page<${table_name}> page = ${lower_table_name}Mapper.selectPage(new Page<>(dto.getPageNum(), dto.getPageSize()), new QueryWrapper<>());
         return page;
     }
+</#if>
 }

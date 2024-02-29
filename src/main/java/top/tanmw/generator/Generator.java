@@ -69,11 +69,13 @@ public class Generator {
             model.setPattern(MULTI.getDesc());
         }
         model.setExcludePrefix(properties.getProperty("excludePrefix"));
+        model.setReplacePrefix(properties.getProperty("replacePrefix"));
         model.setIncludePrefix(properties.getProperty("includePrefix"));
         model.setIncludeSet(properties.getProperty("includeSet"));
         model.setIncludeSetComment(properties.getProperty("includeSetComment"));
         model.setExcludeSet(properties.getProperty("excludeSet"));
         model.setTableLogic(properties.getProperty("tableLogic"));
+        model.setCrud(properties.getProperty("crud"));
         model.setTableFieldInsert(properties.getProperty("tableFieldInsert"));
         model.setTableFieldUpdate(properties.getProperty("tableFieldUpdate"));
         model.setTableFieldInsertUpdate(properties.getProperty("tableFieldInsertUpdate"));

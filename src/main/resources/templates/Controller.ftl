@@ -37,6 +37,9 @@ public class ${table_name}Controller {
     @Autowired
     private ${table_name}Service ${lower_table_name}Service;
 
+<#if crud = true >
+
+
     /**
     * 新增
     */
@@ -96,4 +99,6 @@ public class ${table_name}Controller {
     public Result list(@Validated @RequestBody ${table_name}ListDTO dto) {
         return Result.ok(${lower_table_name}Service.list(dto));
     }
+
+</#if>
 }
