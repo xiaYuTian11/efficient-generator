@@ -9,7 +9,7 @@
 
     <groupId>top.tanmw</groupId>
     <artifactId>efficient-generator</artifactId>
-    <version>1.3.12</version>
+    <version>1.3.13</version>
 
     <packaging>jar</packaging>
 
@@ -27,11 +27,13 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.20</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>21.5.0.0</version>
+            <scope>provided</scope>
         </dependency>
         <!-- mvn install:install-file -Dfile=./kingbase8-8.2.0.jar -DgroupId=com.kingbase -DartifactId=kingbase8 -Dversion=8.2.0 -Dpackaging=jar -->
 <!--        <dependency>-->
@@ -50,6 +52,7 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.3.8</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>

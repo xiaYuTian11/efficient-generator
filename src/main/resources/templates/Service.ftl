@@ -1,5 +1,6 @@
 package ${package_name};
 
+import com.efficient.common.result.Result;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${dto_package_name}.${table_name}DTO;
 import ${dto_package_name}.${table_name}ListDTO;
@@ -20,22 +21,22 @@ public interface ${table_name}Service extends IService<${table_name}> {
     /***
     * 新增
     */
-    ${table_name} save(${table_name}DTO dto);
+    Result<${table_name}> save(${table_name}DTO dto);
 
     /**
     * 详情
     */
-    ${table_name}VO findById(String id);
+    Result<${table_name}VO> findById(String id);
 
     /**
     * 修改
     */
-    Boolean update(${table_name}DTO dto);
+    Result<Boolean> update(${table_name}DTO dto);
 
     /**
     * 删除
     */
-    Boolean delete(String id);
+    Result<Boolean> delete(String id);
 
     /**
     * 列表查询

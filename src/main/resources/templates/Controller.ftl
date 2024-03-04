@@ -43,7 +43,7 @@ public class ${table_name}Controller {
     /**
     * 新增
     */
-    @Log(logOpt = LogEnum.SAVE)
+    @Log(logOpt = LogEnum.SAVE, module = "${table_describe}")
     @PostMapping("/save")
     @ApiOperation(value = "保存")
     public Result<${table_name}> save(@Validated @RequestBody ${table_name}DTO dto) {
@@ -54,7 +54,7 @@ public class ${table_name}Controller {
     /**
     * 详情
     */
-    @Log(logOpt = LogEnum.QUERY)
+    @Log(logOpt = LogEnum.QUERY, module = "${table_describe}")
     @GetMapping("/find")
     @ApiOperation(value = "详情")
     @ApiImplicitParams({
@@ -68,7 +68,7 @@ public class ${table_name}Controller {
     /**
     * 修改
     */
-    @Log(logOpt = LogEnum.UPDATE)
+    @Log(logOpt = LogEnum.UPDATE, module = "${table_describe}")
     @PostMapping("/update")
     @ApiOperation(value = "修改")
     public Result<Boolean> update(@Validated @RequestBody ${table_name}DTO dto) {
@@ -79,7 +79,7 @@ public class ${table_name}Controller {
     /**
     * 删除
     */
-    @Log(logOpt = LogEnum.DELETE)
+    @Log(logOpt = LogEnum.DELETE, module = "${table_describe}")
     @GetMapping("/delete")
     @ApiOperation(value = "删除")
     @ApiImplicitParams({
@@ -93,7 +93,7 @@ public class ${table_name}Controller {
     /**
     * 列表
     */
-    @Log(logOpt = LogEnum.PAGE)
+    @Log(logOpt = LogEnum.PAGE, module = "${table_describe}")
     @PostMapping("/list")
     @ApiOperation(value = "列表", response = Result.class)
     public Result list(@Validated @RequestBody ${table_name}ListDTO dto) {
