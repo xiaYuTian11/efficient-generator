@@ -1,5 +1,6 @@
 package ${package_name};
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.efficient.common.result.Result;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -60,7 +61,8 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
 
     @Override
     public Page<${table_name}> list(${table_name}ListDTO dto) {
-        final Page<${table_name}> page = ${lower_table_name}Mapper.selectPage(new Page<>(dto.getPageNum(), dto.getPageSize()), new QueryWrapper<>());
+        LambdaQueryWrapper<${table_name}> queryWrapper = new LambdaQueryWrapper<>(${table_name}.class);
+        final Page<${table_name}> page = ${lower_table_name}Mapper.selectPage(new Page<>(dto.getPageNum(), dto.getPageSize()), queryWrapper);
         return page;
     }
 </#if>
