@@ -1,7 +1,7 @@
 package ${package_name};
 
 import com.efficient.common.result.Result;
-import com.efficient.auth.permission.Permission;
+import com.efficient.common.permission.Permission;
 import com.efficient.logs.annotation.Log;
 import com.efficient.logs.constant.LogEnum;
 import ${api_package_name}.${table_name}Service;
