@@ -3,6 +3,7 @@ package ${package_name};
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
@@ -16,7 +17,7 @@ import javax.validation.constraints.NotNull;
 */
 @Data
 @ApiModel("${table_describe} 列表查询-${table_name}ListDTO")
-public class ${table_name}ListDTO {
+public class ${table_name}ListDTO implements Serializable {
     private static final long serialVersionUID = ${serialVersionUID};
     @NotNull(message = "pageNum 不能为空")
     private Integer pageNum;

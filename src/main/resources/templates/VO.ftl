@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -17,7 +18,7 @@ import java.util.Date;
 */
 @Data
 @ApiModel("${table_describe} 返回实体-${table_name}VO")
-public class ${table_name}VO {
+public class ${table_name}VO implements Serializable {
 
     private static final long serialVersionUID = ${serialVersionUID};
 

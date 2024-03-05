@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Date;
 */
 @Data
 @ApiModel("${table_describe} 请求实体-${table_name}DTO")
-public class ${table_name}DTO {
+public class ${table_name}DTO implements Serializable {
     private static final long serialVersionUID = ${serialVersionUID};
 
 <#if model_column??>
