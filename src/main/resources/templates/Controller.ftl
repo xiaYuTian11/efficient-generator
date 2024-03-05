@@ -47,8 +47,7 @@ public class ${table_name}Controller {
     @PostMapping("/save")
     @ApiOperation(value = "保存")
     public Result<${table_name}> save(@Validated @RequestBody ${table_name}DTO dto) {
-        ${table_name} entity = ${lower_table_name}Service.save(dto);
-        return Result.ok(entity);
+        return ${lower_table_name}Service.save(dto);
     }
 
     /**
@@ -61,8 +60,7 @@ public class ${table_name}Controller {
             @ApiImplicitParam(name = "id", value = "数据唯一标识", required = true)
     })
     public Result<${table_name}VO> find(@NotBlank(message = "id 不能为空") @RequestParam(name="id") String id) {
-        ${table_name}VO entity = ${lower_table_name}Service.findById(id);
-        return Result.ok(entity);
+        return ${lower_table_name}Service.findById(id);
     }
 
     /**
@@ -72,8 +70,7 @@ public class ${table_name}Controller {
     @PostMapping("/update")
     @ApiOperation(value = "修改")
     public Result<Boolean> update(@Validated @RequestBody ${table_name}DTO dto) {
-        boolean flag = ${lower_table_name}Service.update(dto);
-        return flag ? Result.ok() : Result.fail();
+        return ${lower_table_name}Service.update(dto);
     }
 
     /**
@@ -86,8 +83,7 @@ public class ${table_name}Controller {
             @ApiImplicitParam(name = "id", value = "数据唯一标识", required = true)
     })
     public Result<Boolean> delete(@NotBlank(message = "id 不能为空") @RequestParam(name="id") String id) {
-        boolean flag = ${lower_table_name}Service.delete(id);
-        return flag ? Result.ok() : Result.fail();
+        return ${lower_table_name}Service.delete(id);
     }
 
     /**

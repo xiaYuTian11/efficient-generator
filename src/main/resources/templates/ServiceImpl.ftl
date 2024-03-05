@@ -1,5 +1,6 @@
 package ${package_name};
 
+import com.efficient.common.result.Result;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${api_package_name}.${table_name}Service;
@@ -32,26 +33,29 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
     private ${table_name}Mapper ${lower_table_name}Mapper;
 <#if crud = true >
     @Override
-    public ${table_name} save(${table_name}DTO dto) {
+    public Result<${table_name}> save(${table_name}DTO dto) {
         ${table_name} entity = ${lower_table_name}Converter.dto2Entity(dto);
         boolean flag = this.save(entity);
-        return entity;
+        return Result.ok(entity);
     }
 
     @Override
-    public ${table_name}VO findById(String id) {
+    public Result<${table_name}VO> findById(String id) {
         ${table_name} entity = this.getById(id);
-        return ${lower_table_name}Converter.entity2Vo(entity);
+        ${table_name}VO vo = ${lower_table_name}Converter.entity2Vo(entity);
+        return Result.ok(vo);
     }
 
     @Override
-    public Boolean update(${table_name}DTO dto) {
-        return this.updateById(${lower_table_name}Converter.dto2Entity(dto));
+    public Result<Boolean> update(${table_name}DTO dto) {
+        boolean flag = this.updateById(${lower_table_name}Converter.dto2Entity(dto));
+        return flag ? Result.ok() : Result.fail();
     }
 
     @Override
-    public Boolean delete(String id) {
-        return this.removeById(id);
+    public Result<Boolean> delete(String id) {
+        boolean flag = this.removeById(id);
+        return flag ? Result.ok() : Result.fail();
     }
 
     @Override
