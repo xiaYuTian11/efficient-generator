@@ -52,6 +52,7 @@ public class GeneratorModel {
      * 基础路径
      */
     private String basePath;
+    private String suffixPath;
     /**
      * 工程名称
      */
@@ -229,6 +230,14 @@ public class GeneratorModel {
 
     public void setBasePath(String basePath) {
         this.basePath = basePath;
+    }
+
+    public String getSuffixPath() {
+        return suffixPath;
+    }
+
+    public void setSuffixPath(String suffixPath) {
+        this.suffixPath = suffixPath;
     }
 
     public String getProjectName() {

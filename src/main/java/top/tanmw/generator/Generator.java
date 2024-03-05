@@ -20,24 +20,24 @@ import static top.tanmw.generator.ProjectPattern.MULTI;
  */
 public class Generator {
 
-    public static void main(String[] args) throws Exception {
-        String url = Generator.class.getClassLoader().getResource("generator.properties").getPath().toString();
-
-        GeneratorModel model = init(url);
-        CodePathModel build = CodePathModel.builder()
-                .controllerPath("tanmw-web/src/main/java/top/tanmw/web/controller")
-                .apiPath("tanmw-api/src/main/java/top/tanmw/front/api")
-                .servicePath("tanmw-station/src/main/java/top/tanmw/front/station/service")
-                .daoPath("tanmw-dao/src/main/java/top/tanmw/dao/mapper")
-                .modelEntityPath("tanmw-model/src/main/java/top/tanmw/model/bean")
-                .modelConverterPath("tanmw-model/src/main/java/top/tanmw/model/converter")
-                .modelDtoPath("tanmw-model/src/main/java/top/tanmw/model/dto")
-                .modelVoPath("tanmw-model/src/main/java/top/tanmw/model/vo")
-                .mapperPath("tanmw-dao/src/main/java/top/tanmw/dao/mapper/xml")
-                .build();
-        model.setCodePathModel(build);
-        generate(model);
-    }
+    // public static void main(String[] args) throws Exception {
+    //     String url = Generator.class.getClassLoader().getResource("generator.properties").getPath().toString();
+    //
+    //     GeneratorModel model = init(url);
+    //     CodePathModel build = CodePathModel.builder()
+    //             .controllerPath("tanmw-web/src/main/java/top/tanmw/web/controller")
+    //             .apiPath("tanmw-api/src/main/java/top/tanmw/front/api")
+    //             .servicePath("tanmw-station/src/main/java/top/tanmw/front/station/service")
+    //             .daoPath("tanmw-dao/src/main/java/top/tanmw/dao/mapper")
+    //             .modelEntityPath("tanmw-model/src/main/java/top/tanmw/model/bean")
+    //             .modelConverterPath("tanmw-model/src/main/java/top/tanmw/model/converter")
+    //             .modelDtoPath("tanmw-model/src/main/java/top/tanmw/model/dto")
+    //             .modelVoPath("tanmw-model/src/main/java/top/tanmw/model/vo")
+    //             .mapperPath("tanmw-dao/src/main/java/top/tanmw/dao/mapper/xml")
+    //             .build();
+    //     model.setCodePathModel(build);
+    //     generate(model);
+    // }
 
     public static GeneratorModel init(String url) throws Exception {
         final Properties properties = getProperties(url);
@@ -52,6 +52,7 @@ public class Generator {
         model.setShowTablesSql(properties.getProperty("showTablesSql"));
         model.setShowTablesCommentSql(properties.getProperty("showTablesCommentSql"));
         model.setBasePath(properties.getProperty("basePath"));
+        model.setSuffixPath(properties.getProperty("suffixPath"));
         if (StrUtil.isBlank(model.getBasePath())) {
             String sp1 = System.getProperty("user.dir");
             model.setBasePath(sp1);
