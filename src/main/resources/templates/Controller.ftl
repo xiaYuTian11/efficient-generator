@@ -28,7 +28,7 @@ import javax.validation.constraints.NotBlank;
 * @date ${date}
 */
 @RestController
-@RequestMapping("/${lower_table_name}")
+@RequestMapping("${suffixPath}/${lower_table_name}")
 @Validated
 @Api(tags = "${table_describe}")
 @Permission

@@ -118,7 +118,16 @@ public class CodeGenerateUtils {
 
         basePath = generatorModel.getBasePath();
         suffixPath = generatorModel.getSuffixPath();
-
+        if (StrUtil.isBlank(suffixPath)) {
+            suffixPath = "";
+        } else {
+            if (suffixPath.startsWith("/")) {
+                suffixPath = suffixPath.substring(1);
+            }
+            if (suffixPath.endsWith("/")) {
+                suffixPath = suffixPath.substring(0, suffixPath.length() - 1);
+            }
+        }
         includePrefix = generatorModel.getIncludePrefix();
         projectName = generatorModel.getProjectName();
         packageName = generatorModel.getPackageName();
@@ -575,6 +584,7 @@ public class CodeGenerateUtils {
         dataMap.put("table_name", changeTableName);
         // 首字母小写驼峰
         dataMap.put("lower_table_name", StrUtil.lowerFirst(changeTableName));
+        dataMap.put("suffixPath", StrUtil.isBlank(suffixPath)?suffixPath: SLASH + suffixPath);
         dataMap.put("author", author);
         dataMap.put("crud", crud);
         if (StrUtil.isNotBlank(tableDescribe)) {
@@ -602,18 +612,14 @@ public class CodeGenerateUtils {
             dataMap.put("converter_package_name", codePathModel.getModelConverterPackageName());
             dataMap.put("dao_package_name", codePathModel.getDaoPackageName());
         } else {
-            String suffixPathEnd = "";
-            if (StrUtil.isNotBlank(suffixPath)) {
-                suffixPathEnd = suffixPath;
-            }
-            dataMap.put("dto_package_name", getSuffixPackageName(MODEL + SLASH + DTO + SLASH + suffixPathEnd));
-            dataMap.put("vo_package_name", getSuffixPackageName(MODEL + SLASH + VO + SLASH + suffixPathEnd));
-            dataMap.put("entity_package_name", getSuffixPackageName(MODEL + SLASH + ENTITY + SLASH + suffixPathEnd));
-            dataMap.put("package_name", getSuffixPackageName(packagePath + SLASH + suffixPathEnd));
-            dataMap.put("api_package_name", getSuffixPackageName(API + SLASH + suffixPathEnd));
-            dataMap.put("service_package_name", getSuffixPackageName(SERVICE + SLASH + suffixPathEnd));
-            dataMap.put("converter_package_name", getSuffixPackageName(MODEL + SLASH + CONVERTER + SLASH + suffixPathEnd));
-            dataMap.put("dao_package_name", getSuffixPackageName(DAO + SLASH + suffixPathEnd));
+            dataMap.put("dto_package_name", getSuffixPackageName(MODEL + SLASH + DTO + SLASH + suffixPath));
+            dataMap.put("vo_package_name", getSuffixPackageName(MODEL + SLASH + VO + SLASH + suffixPath));
+            dataMap.put("entity_package_name", getSuffixPackageName(MODEL + SLASH + ENTITY + SLASH + suffixPath));
+            dataMap.put("package_name", getSuffixPackageName(packagePath + SLASH + suffixPath));
+            dataMap.put("api_package_name", getSuffixPackageName(API + SLASH + suffixPath));
+            dataMap.put("service_package_name", getSuffixPackageName(SERVICE + SLASH + suffixPath));
+            dataMap.put("converter_package_name", getSuffixPackageName(MODEL + SLASH + CONVERTER + SLASH + suffixPath));
+            dataMap.put("dao_package_name", getSuffixPackageName(DAO + SLASH + suffixPath));
         }
 
         // dataMap.put("table_annotation", tableAnnotation);
