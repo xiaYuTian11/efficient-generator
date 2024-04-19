@@ -14,29 +14,49 @@ driver=org.postgresql.Driver
 user=postgres
 password=postgres
 
-## 代码生成的基础路径，不写默认是当前工程路径
-basePath=C:\\Users\\tmw\\Desktop\\test
-## 包文件路径 top.generator.demo
-packageName=top.generator.demo
-# single-单模块，multi-多模块
+author=TMW
+## 是否删除以生成文件（用于配置错误生成的错误文件删除操作）,默认false
+isDelete=
+## 删除层级，默认生成文件，如top.tanmw.demo.SysUserController 默认只删除 SysUserController.java，如果值为2，则删除demo包下所有文件
+deleteLevel=
+## 注意文件路径采用反斜杠,默认当前工程路径
+basePath=
+## 注意文件路径采用反斜杠,将在每个文件路径后面在拼接上这个路径 register/train
+suffixPath=
+## 包名称,多模块使用
+projectName=demo
+## 模式，single工程，multi 多模块，默认多模块
+packageName=com.efficient.system
+## 模式，single工程，multi 多模块，默认多模块
 pattern=single
-# 多模块时，需要设置统一的模块名称，如generator-web,generator-dao,则此处填写generator，自动拼接模块名称
-projectName=generator
 ## 包含表名，多个 英文逗号分隔
-includeSet=sys_log
-## 表注释，不填默认读取数据库备注
-includeSettopment=系统日志表
-## 不包含表名，多个 英文逗号分隔
+includeSet=efficient_sys_user,efficient_sys_org,efficient_sys_org_user,efficient_sys_system,efficient_sys_menu,efficient_sys_role,efficient_sys_role_menu,efficient_sys_user_manage,efficient_sys_user_group,efficient_sys_user_group_relation,efficient_sys_org_role,efficient_sys_system_user,efficient_sys_dict,efficient_sys_config
+includeSetComment=
+## 包含前缀
+includePrefix=
+## 替换前缀
+replacePrefix=
+## 排除集合
 excludeSet=
 ## 去掉指定前缀，如sys,sys_等,多个逗号分割
-excludePrefix=
+excludePrefix=efficient_
 ## 是否替换覆盖现有文件，默认不会覆盖
 replace=true
-## 默认全部生成,生成文件,1-model,2-dto,3-listDto,4-VO,5-converter,6-mapper,7-dao,8-service,9-serviceimpl,10-controller
+## 生成文件,1-model,2-dto,3-listDto,4-VO,5-converter,6-mapper,7-dao,8-service,9-serviceimpl,10-controller
 ## 1-4,生成表示包含中间连续的类型，英文逗号包括分隔
 fileType=
+## 是否自动生成增删改查方法，模式true
+crud=true
 ## 使用外包模版,模版放在resources/templates不用配置，会默认读取外包模版
 templatePath=
+## mybatis-plus 逻辑删除字段
+tableLogic=
+## mybatis-plus 新增时自动插入字段
+tableFieldInsert=
+## mybatis-plus 修改时自动插入字段
+tableFieldUpdate=
+## mybatis-plus 新增修改同时变更字段
+tableFieldInsertUpdate=
 ```
 ## 依赖
 ```xml
@@ -64,7 +84,7 @@ templatePath=
         <dependency>
             <groupId>top.tanmw</groupId>
             <artifactId>efficient-generator</artifactId>
-            <version>1.3.1</version>
+            <version>1.3.19</version>
         </dependency>
         <!--    自定义数据库依赖   -->
         <dependency>
