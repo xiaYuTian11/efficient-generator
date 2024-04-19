@@ -1,5 +1,6 @@
 package ${package_name};
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.efficient.common.result.Result;
 import com.efficient.common.permission.Permission;
 import com.efficient.logs.annotation.Log;
@@ -91,9 +92,10 @@ public class ${table_name}Controller {
     */
     @Log(logOpt = LogEnum.PAGE, module = "${table_describe}")
     @PostMapping("/list")
-    @ApiOperation(value = "列表", response = Result.class)
-    public Result list(@Validated @RequestBody ${table_name}ListDTO dto) {
-        return Result.ok(${lower_table_name}Service.list(dto));
+    @ApiOperation(value = "列表", response = ${table_name}VO.class)
+    public Result<Page<${table_name}VO>> list(@Validated @RequestBody ${table_name}ListDTO dto) {
+        Page<${table_name}VO> page =  ${lower_table_name}Service.list(dto);
+        return Result.ok(page);
     }
 
 </#if>

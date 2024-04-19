@@ -1,7 +1,10 @@
 package ${package_name};
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.efficient.common.result.Result;
+import com.efficient.common.result.ResultEnum;
+import com.efficient.configs.util.PageUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${api_package_name}.${table_name}Service;
@@ -16,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
 * <p>
@@ -43,13 +48,17 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
     @Override
     public Result<${table_name}VO> findById(String id) {
         ${table_name} entity = this.getById(id);
+        if(Objects.isNull(entity)){
+            return Result.build(ResultEnum.DATA_NOT_EXIST);
+        }
         ${table_name}VO vo = ${lower_table_name}Converter.entity2Vo(entity);
         return Result.ok(vo);
     }
 
     @Override
     public Result<Boolean> update(${table_name}DTO dto) {
-        boolean flag = this.updateById(${lower_table_name}Converter.dto2Entity(dto));
+        ${table_name} entity = ${lower_table_name}Converter.dto2Entity(dto);
+        boolean flag = this.updateById(entity);
         return flag ? Result.ok() : Result.fail();
     }
 
@@ -60,10 +69,19 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
     }
 
     @Override
-    public Page<${table_name}> list(${table_name}ListDTO dto) {
+    public Page<${table_name}VO> list(${table_name}ListDTO dto) {
         LambdaQueryWrapper<${table_name}> queryWrapper = new LambdaQueryWrapper<>(${table_name}.class);
         final Page<${table_name}> page = ${lower_table_name}Mapper.selectPage(new Page<>(dto.getPageNum(), dto.getPageSize()), queryWrapper);
-        return page;
+        List<${table_name}VO> voList = new ArrayList<>();
+        List<${table_name}> records = page.getRecords();
+        if (CollUtil.isEmpty(records)) {
+            return PageUtil.change(page, voList);
+        }
+        records.forEach(et -> {
+            ${table_name}VO vo = ${lower_table_name}Converter.entity2Vo(et);
+            voList.add(vo);
+        });
+        return PageUtil.change(page, voList);
     }
 </#if>
 }
