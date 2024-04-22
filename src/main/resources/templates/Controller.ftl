@@ -46,7 +46,7 @@ public class ${table_name}Controller {
     */
     @Log(logOpt = LogEnum.SAVE, module = "${table_describe}")
     @PostMapping("/save")
-    @ApiOperation(value = "保存")
+    @ApiOperation(value = "保存", response = ${table_name}.class)
     public Result<${table_name}> save(@Validated @RequestBody ${table_name}DTO dto) {
         return ${lower_table_name}Service.save(dto);
     }
@@ -56,7 +56,7 @@ public class ${table_name}Controller {
     */
     @Log(logOpt = LogEnum.QUERY, module = "${table_describe}")
     @GetMapping("/find")
-    @ApiOperation(value = "详情")
+    @ApiOperation(value = "详情", response = ${table_name}VO.class)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据唯一标识", required = true)
     })
@@ -69,7 +69,7 @@ public class ${table_name}Controller {
     */
     @Log(logOpt = LogEnum.UPDATE, module = "${table_describe}")
     @PostMapping("/update")
-    @ApiOperation(value = "修改")
+    @ApiOperation(value = "修改", response = Boolean.class)
     public Result<Boolean> update(@Validated @RequestBody ${table_name}DTO dto) {
         return ${lower_table_name}Service.update(dto);
     }
@@ -79,7 +79,7 @@ public class ${table_name}Controller {
     */
     @Log(logOpt = LogEnum.DELETE, module = "${table_describe}")
     @GetMapping("/delete")
-    @ApiOperation(value = "删除")
+    @ApiOperation(value = "删除", response = Boolean.class)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "数据唯一标识", required = true)
     })
