@@ -387,6 +387,8 @@ public class CodeGenerateUtils {
                 String remarks = resultSet.getString("REMARKS");
                 if (StrUtil.isNotBlank(remarks) && (remarks.contains("\r") || remarks.contains("\n") || remarks.contains("\""))) {
                     remarks = remarks.replaceAll("\r", " ").replaceAll("\n", " ").replaceAll("\"", "");
+                }else if(StrUtil.isBlank(remarks)){
+                    remarks = columnName;
                 }
                 columnClass.setColumnComment(remarks);
                 final boolean equals = StrUtil.equals(columnClass.getColumnName(), primaryKeyColumnName);
