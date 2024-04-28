@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.efficient.common.result.Result;
 import com.efficient.common.result.ResultEnum;
-import com.efficient.configs.util.PageUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${api_package_name}.${table_name}Service;
@@ -75,13 +74,17 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
         List<${table_name}VO> voList = new ArrayList<>();
         List<${table_name}> records = page.getRecords();
         if (CollUtil.isEmpty(records)) {
-            return PageUtil.change(page, voList);
+            Page<${table_name}VO> newPage = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+            newPage.setRecords(new ArrayList<>());
+            return newPage;
         }
         records.forEach(et -> {
             ${table_name}VO vo = ${lower_table_name}Converter.entity2Vo(et);
             voList.add(vo);
         });
-        return PageUtil.change(page, voList);
+        Page<${table_name}VO> newPage = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        newPage.setRecords(voList);
+        return newPage;
     }
 </#if>
 }

@@ -36,7 +36,7 @@ public class ${table_name}VO implements Serializable {
     || model.columnType = 'longvarchar')>
     private String ${model.changeColumnName?uncap_first};
     </#if>
-    <#if model.columnType = 'timestamp'  ||  model.columnType = 'date' >
+    <#if model.columnType = 'timestamp'  ||  model.columnType = 'date'  ||  model.columnType = 'datetime'>
     private Date ${model.changeColumnName?uncap_first};
     </#if>
     <#if model.columnType = 'smallint' || model.columnType = 'int'  || model.columnType = 'int2'
