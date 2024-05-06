@@ -73,9 +73,9 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
         final Page<${table_name}> page = ${lower_table_name}Mapper.selectPage(new Page<>(dto.getPageNum(), dto.getPageSize()), queryWrapper);
         List<${table_name}VO> voList = new ArrayList<>();
         List<${table_name}> records = page.getRecords();
+        Page<${table_name}VO> newPage = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
+        newPage.setRecords(voList);
         if (CollUtil.isEmpty(records)) {
-            Page<${table_name}VO> newPage = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-            newPage.setRecords(new ArrayList<>());
             return newPage;
         }
         records.forEach(et -> {
@@ -83,7 +83,6 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
             voList.add(vo);
         });
         Page<${table_name}VO> newPage = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
-        newPage.setRecords(voList);
         return newPage;
     }
 </#if>
