@@ -82,7 +82,6 @@ public class ${table_name}ServiceImpl extends ServiceImpl<${table_name}Mapper, $
             ${table_name}VO vo = ${lower_table_name}Converter.entity2Vo(et);
             voList.add(vo);
         });
-        Page<${table_name}VO> newPage = new Page<>(page.getCurrent(), page.getSize(), page.getTotal());
         return newPage;
     }
 </#if>

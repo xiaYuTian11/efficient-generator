@@ -9,7 +9,7 @@
 
     <groupId>top.tanmw</groupId>
     <artifactId>efficient-generator</artifactId>
-    <version>1.3.24</version>
+    <version>1.3.25</version>
 
     <packaging>jar</packaging>
 
